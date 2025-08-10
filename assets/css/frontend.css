@@ -1,0 +1,623 @@
+/**
+ * Frontend Styles for Wiki Blocks
+ *
+ * @package WikiBlocks
+ * @since 1.0.0
+ */
+
+/* Wiki Block Container */
+.wilcoskywb-wiki-block {
+    position: relative;
+    margin: 1.5em 0;
+    padding: 1.5em;
+    border: 2px dashed #ddd;
+    border-radius: 0;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.wilcoskywb-wiki-block:hover {
+    border-color: #0073aa;
+    background-color: #f0f8ff;
+}
+
+/* Wiki Content */
+.wilcoskywb-wiki-content {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.wilcoskywb-wiki-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Wiki Controls */
+.wilcoskywb-wiki-controls {
+    display: flex;
+    gap: 0.75em;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #eee;
+}
+
+.wilcoskywb-wiki-suggest-btn,
+.wilcoskywb-wiki-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.5em 1em;
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    font-size: 0.875em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-suggest-btn:hover,
+.wilcoskywb-wiki-browse-btn:hover {
+    background-color: #005a87;
+    color: white;
+    text-decoration: none;
+}
+
+.wilcoskywb-wiki-suggest-btn .dashicons,
+.wilcoskywb-wiki-browse-btn .dashicons {
+    font-size: 1em;
+    width: 1em;
+    height: 1em;
+}
+
+/* Modal Styles */
+.wilcoskywb-wiki-modal,
+.wilcoskywb-wiki-suggest-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    display: none;
+}
+
+.wilcoskywb-wiki-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.wilcoskywb-wiki-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.wilcoskywb-wiki-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5em;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.wilcoskywb-wiki-modal-header h3 {
+    margin: 0;
+    font-size: 1.25em;
+    color: #333;
+}
+
+.wilcoskywb-wiki-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    transition: color 0.3s ease;
+}
+
+.wilcoskywb-wiki-modal-close:hover {
+    color: #333;
+}
+
+.wilcoskywb-wiki-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5em;
+}
+
+/* Version List Styles */
+.wilcoskywb-wiki-versions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.wilcoskywb-wiki-version {
+    border: 1px solid #dee2e6;
+    border-radius: 0;
+    padding: 1.5em;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-version:hover {
+    border-color: #0073aa;
+}
+
+.wilcoskywb-wiki-version-current {
+    border: 2px solid #28a745;
+    background-color: #f8fff9;
+    padding: 1.5em !important;
+    margin-bottom: 1em;
+}
+
+.wilcoskywb-wiki-version-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.wilcoskywb-wiki-version-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+}
+
+.wilcoskywb-wiki-version-number {
+    font-weight: bold;
+    color: #0073aa;
+    font-size: 1.1em;
+}
+
+.wilcoskywb-wiki-current-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 0.25em 0.5em;
+    border-radius: 0;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.wilcoskywb-wiki-version-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.875em;
+    color: #666;
+}
+
+.wilcoskywb-wiki-user-avatar {
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.wilcoskywb-wiki-user-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.wilcoskywb-wiki-version-date {
+    color: #666;
+}
+
+.wilcoskywb-wiki-version-summary {
+    margin-bottom: 1em;
+    padding: 0.75em;
+    background-color: #f8f9fa;
+    border-left: 3px solid #0073aa;
+    font-style: italic;
+}
+
+.wilcoskywb-wiki-version-content-excerpt {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.wilcoskywb-wiki-version-content-excerpt p {
+    margin: 0 0 0.75em 0;
+    color: #666;
+    font-style: italic;
+}
+
+/* Ensure current version excerpt is properly styled */
+.wilcoskywb-wiki-version-current .wilcoskywb-wiki-version-content-excerpt {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.wilcoskywb-wiki-version-content-full {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.wilcoskywb-wiki-version-content-inner {
+    margin-bottom: 0.75em;
+}
+
+.wilcoskywb-wiki-expand-btn,
+.wilcoskywb-wiki-collapse-btn {
+    padding: 0.25em 0.5em;
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.75em;
+    text-decoration: underline;
+    transition: background-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-expand-btn:hover,
+.wilcoskywb-wiki-collapse-btn:hover {
+    background-color: #005a87;
+}
+
+.wilcoskywb-wiki-version-content {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
+
+.wilcoskywb-wiki-version-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5em;
+}
+
+.wilcoskywb-wiki-version-full-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #dee2e6;
+}
+
+.wilcoskywb-wiki-merge-btn {
+    padding: 0.75em 1.5em;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-merge-btn:hover {
+    background-color: #218838;
+}
+
+.wilcoskywb-wiki-merge-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Suggest Form Styles */
+.wilcoskywb-wiki-suggest-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.wilcoskywb-wiki-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.wilcoskywb-wiki-form-group label {
+    font-weight: 500;
+    color: #333;
+}
+
+.wilcoskywb-wiki-form-group input,
+.wilcoskywb-wiki-form-group textarea {
+    padding: 0.75em;
+    border: 1px solid #dee2e6;
+    border-radius: 0;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-form-group input:focus,
+.wilcoskywb-wiki-form-group textarea:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+}
+
+.wilcoskywb-wiki-form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.wilcoskywb-wiki-form-actions {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+}
+
+.wilcoskywb-wiki-submit-btn {
+    padding: 0.75em 1.5em;
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-submit-btn:hover {
+    background-color: #005a87;
+}
+
+.wilcoskywb-wiki-submit-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.wilcoskywb-wiki-cancel-btn {
+    padding: 0.75em 1.5em;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.wilcoskywb-wiki-cancel-btn:hover {
+    background-color: #545b62;
+}
+
+/* Loading States */
+.wilcoskywb-wiki-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.wilcoskywb-wiki-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #0073aa;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: wilcoskywb-spin 1s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes wilcoskywb-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empty States */
+.wilcoskywb-wiki-empty-state {
+    text-align: center;
+    padding: 2em;
+    color: #666;
+}
+
+.wilcoskywb-wiki-empty-state p {
+    margin: 0 0 0.5em 0;
+}
+
+.wilcoskywb-wiki-empty-hint {
+    font-size: 0.875em;
+    font-style: italic;
+    color: #999;
+}
+
+/* Message Styles */
+.wilcoskywb-wiki-message {
+    position: fixed;
+    top: 2em;
+    right: 2em;
+    padding: 1em 1.5em;
+    border-radius: 0;
+    color: white;
+    font-weight: 500;
+    z-index: 1000000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.wilcoskywb-wiki-message-show {
+    transform: translateX(0);
+}
+
+.wilcoskywb-wiki-message-success {
+    background-color: #28a745;
+}
+
+.wilcoskywb-wiki-message-error {
+    background-color: #dc3545;
+}
+
+.wilcoskywb-wiki-message-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wilcoskywb-wiki-modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .wilcoskywb-wiki-modal-header,
+    .wilcoskywb-wiki-modal-body {
+        padding: 1em;
+    }
+    
+    .wilcoskywb-wiki-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .wilcoskywb-wiki-suggest-btn,
+    .wilcoskywb-wiki-browse-btn {
+        justify-content: center;
+    }
+    
+    .wilcoskywb-wiki-version-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .wilcoskywb-wiki-form-actions {
+        flex-direction: column;
+    }
+    
+    .wilcoskywb-wiki-message {
+        top: 1em;
+        right: 1em;
+        left: 1em;
+        max-width: none;
+        transform: translateY(-100%);
+    }
+    
+    .wilcoskywb-wiki-message-show {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .wilcoskywb-wiki-block {
+        padding: 1em;
+        margin: 1em 0;
+    }
+    
+    .wilcoskywb-wiki-version {
+        padding: 1em;
+    }
+    
+    .wilcoskywb-wiki-version-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25em;
+    }
+}
+
+/* Accessibility Improvements */
+.wilcoskywb-wiki-suggest-btn:focus,
+.wilcoskywb-wiki-browse-btn:focus,
+.wilcoskywb-wiki-modal-close:focus,
+.wilcoskywb-wiki-merge-btn:focus,
+.wilcoskywb-wiki-submit-btn:focus,
+.wilcoskywb-wiki-cancel-btn:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+.wilcoskywb-wiki-form-group input:focus,
+.wilcoskywb-wiki-form-group textarea:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .wilcoskywb-wiki-block {
+        border-width: 3px;
+    }
+    
+    .wilcoskywb-wiki-suggest-btn,
+    .wilcoskywb-wiki-browse-btn,
+    .wilcoskywb-wiki-merge-btn,
+    .wilcoskywb-wiki-submit-btn,
+    .wilcoskywb-wiki-cancel-btn {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .wilcoskywb-wiki-block,
+    .wilcoskywb-wiki-suggest-btn,
+    .wilcoskywb-wiki-browse-btn,
+    .wilcoskywb-wiki-modal-close,
+    .wilcoskywb-wiki-merge-btn,
+    .wilcoskywb-wiki-submit-btn,
+    .wilcoskywb-wiki-cancel-btn,
+    .wilcoskywb-wiki-version,
+    .wilcoskywb-wiki-message {
+        transition: none;
+    }
+    
+    .wilcoskywb-wiki-modal-content {
+        animation: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .wilcoskywb-wiki-controls,
+    .wilcoskywb-wiki-modal,
+    .wilcoskywb-wiki-suggest-modal {
+        display: none !important;
+    }
+    
+    .wilcoskywb-wiki-block {
+        border: 1px solid #ccc;
+        background-color: white;
+        page-break-inside: avoid;
+    }
+} 

@@ -1,0 +1,319 @@
+/**
+ * Admin Styles for Wiki Blocks
+ *
+ * @package WikiBlocks
+ * @since 1.0.0
+ */
+
+/* Admin Help Text */
+.wilcoskywb-wiki-blocks-help-text {
+    background: #f8f9fa;
+    border-left: 4px solid #0073aa;
+    padding: 1em;
+    margin-bottom: 1.5em;
+}
+
+.wilcoskywb-wiki-blocks-permission-help {
+    margin-top: 1em;
+}
+
+.wilcoskywb-wiki-blocks-permission-help h4 {
+    margin: 0 0 0.5em 0;
+    color: #0073aa;
+}
+
+.wilcoskywb-wiki-blocks-permission-help ul {
+    margin: 0;
+    padding-left: 1.5em;
+}
+
+.wilcoskywb-wiki-blocks-permission-help li {
+    margin-bottom: 0.5em;
+}
+
+/* Admin Page Layout */
+.wilcoskywb-wiki-blocks-admin-content {
+    display: flex;
+    gap: 2em;
+    margin-top: 1.5em;
+}
+
+.wilcoskywb-wiki-blocks-admin-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.wilcoskywb-wiki-blocks-admin-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+/* Admin Widgets */
+.wilcoskywb-wiki-blocks-admin-widget {
+    background: #ffffff;
+    border: 1px solid #e1e5e9;
+    margin-bottom: 1.5em;
+    padding: 1.5em;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget h3 {
+    margin: 0 0 1em 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #23282d;
+    border-bottom: 1px solid #e1e5e9;
+    padding-bottom: 0.5em;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget p {
+    margin: 0 0 1em 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget p:last-child {
+    margin-bottom: 0;
+}
+
+/* Statistics Grid */
+.wilcoskywb-wiki-blocks-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+.wilcoskywb-wiki-blocks-stat-item {
+    text-align: center;
+    padding: 1em;
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+}
+
+.wilcoskywb-wiki-blocks-stat-number {
+    font-size: 2em;
+    font-weight: 700;
+    color: #0073aa;
+    line-height: 1;
+    margin-bottom: 0.25em;
+}
+
+.wilcoskywb-wiki-blocks-stat-label {
+    font-size: 0.875em;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Recent Activity */
+.wilcoskywb-wiki-blocks-recent-activity h4 {
+    margin: 0 0 1em 0;
+    font-size: 1em;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.wilcoskywb-wiki-blocks-recent-activity ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wilcoskywb-wiki-blocks-recent-activity li {
+    padding: 0.75em 0;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.4;
+}
+
+.wilcoskywb-wiki-blocks-recent-activity li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wilcoskywb-wiki-blocks-recent-activity small {
+    color: #666;
+    font-size: 0.875em;
+}
+
+/* Settings Form */
+.wilcoskywb-wiki-blocks-admin-main form {
+    background: #ffffff;
+    border: 1px solid #e1e5e9;
+    padding: 2em;
+}
+
+.wilcoskywb-wiki-blocks-admin-main .form-table {
+    margin-top: 0;
+}
+
+.wilcoskywb-wiki-blocks-admin-main .form-table th {
+    padding: 1em 1em 1em 0;
+    width: 200px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.wilcoskywb-wiki-blocks-admin-main .form-table td {
+    padding: 1em 0;
+}
+
+.wilcoskywb-wiki-blocks-admin-main fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.wilcoskywb-wiki-blocks-admin-main fieldset label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+}
+
+.wilcoskywb-wiki-blocks-admin-main fieldset input[type="checkbox"] {
+    margin-right: 0.5em;
+}
+
+.wilcoskywb-wiki-blocks-admin-main .description {
+    margin-top: 0.5em;
+    font-size: 0.875em;
+    color: #666;
+    font-style: italic;
+}
+
+/* Buttons */
+.wilcoskywb-wiki-blocks-admin-widget .button {
+    width: 100%;
+    text-align: center;
+    padding: 0.75em 1em;
+    font-size: 0.875em;
+    font-weight: 500;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget .button-secondary {
+    background: #f8f9fa;
+    border-color: #ddd;
+    color: #333;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget .button-secondary:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Error Messages */
+.wilcoskywb-wiki-blocks-admin-widget .error {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 0.75em;
+    margin: 0;
+    border-radius: 0;
+}
+
+/* Loading States */
+.wilcoskywb-wiki-blocks-admin-widget .loading {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .wilcoskywb-wiki-blocks-admin-content {
+        flex-direction: column;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-sidebar {
+        width: 100%;
+    }
+    
+    .wilcoskywb-wiki-blocks-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .wilcoskywb-wiki-blocks-admin-main form {
+        padding: 1em;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-main .form-table th {
+        display: block;
+        width: 100%;
+        padding: 0.5em 0;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-main .form-table td {
+        display: block;
+        padding: 0 0 1em 0;
+    }
+    
+    .wilcoskywb-wiki-blocks-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-widget {
+        padding: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .wilcoskywb-wiki-blocks-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wilcoskywb-wiki-blocks-stat-number {
+        font-size: 1.5em;
+    }
+}
+
+/* Accessibility Improvements */
+.wilcoskywb-wiki-blocks-admin-main input:focus,
+.wilcoskywb-wiki-blocks-admin-main select:focus,
+.wilcoskywb-wiki-blocks-admin-main textarea:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+.wilcoskywb-wiki-blocks-admin-widget .button:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .wilcoskywb-wiki-blocks-admin-widget {
+        border-width: 2px;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-main form {
+        border-width: 2px;
+    }
+    
+    .wilcoskywb-wiki-blocks-stat-item {
+        border-width: 2px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .wilcoskywb-wiki-blocks-admin-widget .button {
+        transition: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .wilcoskywb-wiki-blocks-admin-sidebar {
+        display: none;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-main {
+        width: 100%;
+    }
+    
+    .wilcoskywb-wiki-blocks-admin-widget .button {
+        display: none;
+    }
+} 

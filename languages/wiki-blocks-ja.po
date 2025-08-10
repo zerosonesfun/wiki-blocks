@@ -1,0 +1,319 @@
+# Japanese translation for Wiki Blocks
+# Copyright (C) 2024 Billy Wilcosky
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wiki Blocks 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wilcosky.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: Billy Wilcosky <billy@wilcosky.com>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Security check failed."
+msgstr "セキュリティチェックに失敗しました。"
+
+msgid "You must be logged in to suggest changes."
+msgstr "変更を提案するにはログインする必要があります。"
+
+msgid "Missing required fields."
+msgstr "必須フィールドが不足しています。"
+
+msgid "Invalid block ID format."
+msgstr "ブロックIDの形式が無効です。"
+
+msgid "You do not have permission to suggest changes for this block."
+msgstr "このブロックの変更を提案する権限がありません。"
+
+msgid "Failed to save your suggestion."
+msgstr "提案の保存に失敗しました。"
+
+msgid "Your suggestion has been submitted successfully. It will be reviewed and may be accepted as the new version."
+msgstr "提案が正常に送信されました。レビューされ、新しいバージョンとして承認される可能性があります。"
+
+msgid "You do not have permission to browse versions."
+msgstr "バージョンを閲覧する権限がありません。"
+
+msgid "You must be logged in to merge versions."
+msgstr "バージョンをマージするにはログインする必要があります。"
+
+msgid "You do not have permission to merge versions."
+msgstr "バージョンをマージする権限がありません。"
+
+msgid "Failed to merge version."
+msgstr "バージョンのマージに失敗しました。"
+
+msgid "Version merged successfully."
+msgstr "バージョンが正常にマージされました。"
+
+msgid "You must be logged in to save settings."
+msgstr "設定を保存するにはログインする必要があります。"
+
+msgid "You do not have permission to edit this post."
+msgstr "この投稿を編集する権限がありません。"
+
+msgid "Failed to save settings."
+msgstr "設定の保存に失敗しました。"
+
+msgid "Settings saved successfully."
+msgstr "設定が正常に保存されました。"
+
+msgid "Invalid settings format."
+msgstr "設定形式が無効です。"
+
+msgid "Wiki Block"
+msgstr "Wikiブロック"
+
+msgid "A collaborative wiki block with version control."
+msgstr "バージョン管理付きの協調Wikiブロック。"
+
+msgid "Enter your wiki content here..."
+msgstr "Wikiコンテンツをここに入力してください..."
+
+msgid "Wiki Block Settings"
+msgstr "Wikiブロック設定"
+
+msgid "Merge Permissions"
+msgstr "マージ権限"
+
+msgid "Browse Permissions"
+msgstr "閲覧権限"
+
+msgid "Require Login to Browse Versions"
+msgstr "バージョン閲覧にログインを要求"
+
+msgid "Save Settings"
+msgstr "設定を保存"
+
+msgid "Settings saved successfully!"
+msgstr "設定が正常に保存されました！"
+
+msgid "Error saving settings."
+msgstr "設定保存エラー。"
+
+msgid "Wiki Blocks"
+msgstr "Wikiブロック"
+
+msgid "Suggest Change"
+msgstr "変更を提案"
+
+msgid "View History"
+msgstr "履歴を表示"
+
+msgid "History"
+msgstr "履歴"
+
+msgid "Suggest a Change"
+msgstr "変更を提案"
+
+msgid "Change Summary"
+msgstr "変更概要"
+
+msgid "Brief description of your changes..."
+msgstr "変更の簡単な説明..."
+
+msgid "Content"
+msgstr "コンテンツ"
+
+msgid "Submit Suggestion"
+msgstr "提案を送信"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Loading..."
+msgstr "読み込み中..."
+
+msgid "An error occurred. Please try again."
+msgstr "エラーが発生しました。もう一度お試しください。"
+
+msgid "No versions found."
+msgstr "バージョンが見つかりません。"
+
+msgid "Be the first to suggest a change!"
+msgstr "最初の変更提案者になりましょう！"
+
+msgid "Are you sure you want to make this version the current version?"
+msgstr "このバージョンを現在のバージョンにしますか？"
+
+msgid "Version merged successfully!"
+msgstr "バージョンが正常にマージされました！"
+
+msgid "Your suggestion has been submitted successfully!"
+msgstr "提案が正常に送信されました！"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Merge"
+msgstr "マージ"
+
+msgid "Submit"
+msgstr "送信"
+
+msgid "Current"
+msgstr "現在"
+
+msgid "by"
+msgstr "by"
+
+msgid "on"
+msgstr "on"
+
+msgid "Read Full Version"
+msgstr "完全版を読む"
+
+msgid "Show Less"
+msgstr "少なく表示"
+
+msgid "Wiki Blocks Settings"
+msgstr "Wikiブロック設定"
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "このページにアクセスする権限が不足しています。"
+
+msgid "Statistics"
+msgstr "統計"
+
+msgid "Loading statistics..."
+msgstr "統計を読み込み中..."
+
+msgid "Maintenance"
+msgstr "メンテナンス"
+
+msgid "Clean up old wiki block versions to free up database space."
+msgstr "古いWikiブロックバージョンをクリーンアップしてデータベース容量を確保します。"
+
+msgid "Cleanup Old Versions"
+msgstr "古いバージョンをクリーンアップ"
+
+msgid "Documentation"
+msgstr "ドキュメント"
+
+msgid "Learn how to use Wiki Blocks effectively."
+msgstr "Wikiブロックの効果的な使用方法を学びます。"
+
+msgid "View Documentation"
+msgstr "ドキュメントを表示"
+
+msgid "Configure who can perform different actions with wiki blocks."
+msgstr "Wikiブロックで異なるアクションを実行できるユーザーを設定します。"
+
+msgid "Select which user roles can merge wiki block versions."
+msgstr "Wikiブロックバージョンをマージできるユーザーロールを選択します。"
+
+msgid "Select which user roles can browse wiki block versions."
+msgstr "Wikiブロックバージョンを閲覧できるユーザーロールを選択します。"
+
+msgid "Require users to be logged in to browse versions"
+msgstr "バージョン閲覧にユーザーログインを要求"
+
+msgid "If checked, only logged-in users can browse wiki block versions."
+msgstr "チェックすると、ログインユーザーのみがWikiブロックバージョンを閲覧できます。"
+
+msgid "Select which user roles can suggest changes to wiki blocks."
+msgstr "Wikiブロックに変更を提案できるユーザーロールを選択します。"
+
+msgid "Cleanup on Uninstall"
+msgstr "アンインストール時のクリーンアップ"
+
+msgid "Remove all plugin data when uninstalling"
+msgstr "アンインストール時にすべてのプラグインデータを削除"
+
+msgid "If checked, all wiki block data will be permanently deleted when the plugin is uninstalled."
+msgstr "チェックすると、プラグインのアンインストール時にすべてのWikiブロックデータが永続的に削除されます。"
+
+msgid "Insufficient permissions."
+msgstr "権限が不足しています。"
+
+msgid "Error during cleanup."
+msgstr "クリーンアップ中にエラーが発生しました。"
+
+msgid "Cleanup completed. Deleted %d old versions."
+msgstr "クリーンアップ完了。%d個の古いバージョンを削除しました。"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Configure who can perform different actions with wiki blocks. These are global settings that apply to all wiki blocks unless overridden by block-specific settings."
+msgstr "Wikiブロックで異なるアクションを実行できるユーザーを設定します。これらは、ブロック固有の設定で上書きされない限り、すべてのWikiブロックに適用されるグローバル設定です。"
+
+msgid "Permission Types:"
+msgstr "権限タイプ："
+
+msgid "Who can approve and merge suggested changes to make them live."
+msgstr "提案された変更を承認してマージし、ライブにできるユーザー。"
+
+msgid "Who can view the version history of wiki blocks."
+msgstr "Wikiブロックのバージョン履歴を表示できるユーザー。"
+
+msgid "Who can submit suggested changes to wiki blocks."
+msgstr "Wikiブロックに変更を提案できるユーザー。"
+
+msgid "Clean up all data when plugin is deleted"
+msgstr "プラグインが削除されたときにすべてのデータをクリーンアップ"
+
+msgid "If checked, all wiki block data (versions, settings) will be permanently deleted when the plugin is uninstalled. If unchecked, data will be preserved."
+msgstr "チェックすると、プラグインのアンインストール時にすべてのWikiブロックデータ（バージョン、設定）が永続的に削除されます。チェックしない場合、データは保持されます。"
+
+msgid "Initial version"
+msgstr "初期バージョン"
+
+msgid "wiki"
+msgstr "wiki"
+
+msgid "collaborative"
+msgstr "協調"
+
+msgid "version"
+msgstr "バージョン"
+
+msgid "edit"
+msgstr "編集"
+
+msgid "Color settings"
+msgstr "色設定"
+
+msgid "Background color"
+msgstr "背景色"
+
+msgid "Text color"
+msgstr "テキスト色"
+
+msgid "This is a wiki block. Users can suggest changes and browse version history on the frontend."
+msgstr "これはWikiブロックです。ユーザーはフロントエンドで変更を提案し、バージョン履歴を閲覧できます。"
+
+msgid "Unable to load settings."
+msgstr "設定を読み込めません。"
+
+msgid "Permission settings are managed globally in the Wiki Blocks settings page."
+msgstr "権限設定はWikiブロック設定ページでグローバルに管理されます。"
+
+msgid "Total Versions"
+msgstr "総バージョン数"
+
+msgid "Contributors"
+msgstr "貢献者"
+
+msgid "Recent Activity"
+msgstr "最近のアクティビティ"
+
+msgid "suggested a change to"
+msgstr "に変更を提案しました"
+
+msgid "No recent activity."
+msgstr "最近のアクティビティはありません。"
+
+msgid "Are you sure you want to delete all old versions? This action cannot be undone."
+msgstr "すべての古いバージョンを削除してもよろしいですか？この操作は元に戻せません。"
+
+msgid "Cleanup completed successfully!"
+msgstr "クリーンアップが正常に完了しました！"
+
+msgid "Error during cleanup. Please try again."
+msgstr "クリーンアップ中にエラーが発生しました。もう一度お試しください。" 

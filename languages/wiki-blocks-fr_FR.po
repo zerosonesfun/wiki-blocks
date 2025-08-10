@@ -1,0 +1,319 @@
+# French translation for Wiki Blocks
+# Copyright (C) 2024 Billy Wilcosky
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wiki Blocks 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wilcosky.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: Billy Wilcosky <billy@wilcosky.com>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Security check failed."
+msgstr "La vérification de sécurité a échoué."
+
+msgid "You must be logged in to suggest changes."
+msgstr "Vous devez être connecté pour suggérer des modifications."
+
+msgid "Missing required fields."
+msgstr "Champs requis manquants."
+
+msgid "Invalid block ID format."
+msgstr "Format d'ID de bloc invalide."
+
+msgid "You do not have permission to suggest changes for this block."
+msgstr "Vous n'avez pas la permission de suggérer des modifications pour ce bloc."
+
+msgid "Failed to save your suggestion."
+msgstr "Échec de l'enregistrement de votre suggestion."
+
+msgid "Your suggestion has been submitted successfully. It will be reviewed and may be accepted as the new version."
+msgstr "Votre suggestion a été soumise avec succès. Elle sera examinée et pourra être acceptée comme nouvelle version."
+
+msgid "You do not have permission to browse versions."
+msgstr "Vous n'avez pas la permission de parcourir les versions."
+
+msgid "You must be logged in to merge versions."
+msgstr "Vous devez être connecté pour fusionner les versions."
+
+msgid "You do not have permission to merge versions."
+msgstr "Vous n'avez pas la permission de fusionner les versions."
+
+msgid "Failed to merge version."
+msgstr "Échec de la fusion de la version."
+
+msgid "Version merged successfully."
+msgstr "Version fusionnée avec succès."
+
+msgid "You must be logged in to save settings."
+msgstr "Vous devez être connecté pour enregistrer les paramètres."
+
+msgid "You do not have permission to edit this post."
+msgstr "Vous n'avez pas la permission de modifier cet article."
+
+msgid "Failed to save settings."
+msgstr "Échec de l'enregistrement des paramètres."
+
+msgid "Settings saved successfully."
+msgstr "Paramètres enregistrés avec succès."
+
+msgid "Invalid settings format."
+msgstr "Format de paramètres invalide."
+
+msgid "Wiki Block"
+msgstr "Bloc Wiki"
+
+msgid "A collaborative wiki block with version control."
+msgstr "Un bloc wiki collaboratif avec contrôle de version."
+
+msgid "Enter your wiki content here..."
+msgstr "Entrez votre contenu wiki ici..."
+
+msgid "Wiki Block Settings"
+msgstr "Paramètres du Bloc Wiki"
+
+msgid "Merge Permissions"
+msgstr "Permissions de Fusion"
+
+msgid "Browse Permissions"
+msgstr "Permissions de Navigation"
+
+msgid "Require Login to Browse Versions"
+msgstr "Exiger la Connexion pour Parcourir les Versions"
+
+msgid "Save Settings"
+msgstr "Enregistrer les Paramètres"
+
+msgid "Settings saved successfully!"
+msgstr "Paramètres enregistrés avec succès !"
+
+msgid "Error saving settings."
+msgstr "Erreur lors de l'enregistrement des paramètres."
+
+msgid "Wiki Blocks"
+msgstr "Blocs Wiki"
+
+msgid "Suggest Change"
+msgstr "Suggérer un Changement"
+
+msgid "View History"
+msgstr "Voir l'Historique"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Suggest a Change"
+msgstr "Suggérer un Changement"
+
+msgid "Change Summary"
+msgstr "Résumé du Changement"
+
+msgid "Brief description of your changes..."
+msgstr "Brève description de vos modifications..."
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Submit Suggestion"
+msgstr "Soumettre la Suggestion"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "An error occurred. Please try again."
+msgstr "Une erreur s'est produite. Veuillez réessayer."
+
+msgid "No versions found."
+msgstr "Aucune version trouvée."
+
+msgid "Be the first to suggest a change!"
+msgstr "Soyez le premier à suggérer un changement !"
+
+msgid "Are you sure you want to make this version the current version?"
+msgstr "Êtes-vous sûr de vouloir faire de cette version la version actuelle ?"
+
+msgid "Version merged successfully!"
+msgstr "Version fusionnée avec succès !"
+
+msgid "Your suggestion has been submitted successfully!"
+msgstr "Votre suggestion a été soumise avec succès !"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Merge"
+msgstr "Fusionner"
+
+msgid "Submit"
+msgstr "Soumettre"
+
+msgid "Current"
+msgstr "Actuel"
+
+msgid "by"
+msgstr "par"
+
+msgid "on"
+msgstr "le"
+
+msgid "Read Full Version"
+msgstr "Lire la Version Complète"
+
+msgid "Show Less"
+msgstr "Afficher Moins"
+
+msgid "Wiki Blocks Settings"
+msgstr "Paramètres des Blocs Wiki"
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Vous n'avez pas les permissions suffisantes pour accéder à cette page."
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "Loading statistics..."
+msgstr "Chargement des statistiques..."
+
+msgid "Maintenance"
+msgstr "Maintenance"
+
+msgid "Clean up old wiki block versions to free up database space."
+msgstr "Nettoyer les anciennes versions de blocs wiki pour libérer de l'espace dans la base de données."
+
+msgid "Cleanup Old Versions"
+msgstr "Nettoyer les Anciennes Versions"
+
+msgid "Documentation"
+msgstr "Documentation"
+
+msgid "Learn how to use Wiki Blocks effectively."
+msgstr "Apprenez à utiliser les Blocs Wiki efficacement."
+
+msgid "View Documentation"
+msgstr "Voir la Documentation"
+
+msgid "Configure who can perform different actions with wiki blocks."
+msgstr "Configurez qui peut effectuer différentes actions avec les blocs wiki."
+
+msgid "Select which user roles can merge wiki block versions."
+msgstr "Sélectionnez quels rôles d'utilisateur peuvent fusionner les versions de blocs wiki."
+
+msgid "Select which user roles can browse wiki block versions."
+msgstr "Sélectionnez quels rôles d'utilisateur peuvent parcourir les versions de blocs wiki."
+
+msgid "Require users to be logged in to browse versions"
+msgstr "Exiger que les utilisateurs soient connectés pour parcourir les versions"
+
+msgid "If checked, only logged-in users can browse wiki block versions."
+msgstr "Si coché, seuls les utilisateurs connectés peuvent parcourir les versions de blocs wiki."
+
+msgid "Select which user roles can suggest changes to wiki blocks."
+msgstr "Sélectionnez quels rôles d'utilisateur peuvent suggérer des modifications aux blocs wiki."
+
+msgid "Cleanup on Uninstall"
+msgstr "Nettoyage lors de la Désinstallation"
+
+msgid "Remove all plugin data when uninstalling"
+msgstr "Supprimer toutes les données du plugin lors de la désinstallation"
+
+msgid "If checked, all wiki block data will be permanently deleted when the plugin is uninstalled."
+msgstr "Si coché, toutes les données de blocs wiki seront définitivement supprimées lors de la désinstallation du plugin."
+
+msgid "Insufficient permissions."
+msgstr "Permissions insuffisantes."
+
+msgid "Error during cleanup."
+msgstr "Erreur lors du nettoyage."
+
+msgid "Cleanup completed. Deleted %d old versions."
+msgstr "Nettoyage terminé. %d anciennes versions supprimées."
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Configure who can perform different actions with wiki blocks. These are global settings that apply to all wiki blocks unless overridden by block-specific settings."
+msgstr "Configurez qui peut effectuer différentes actions avec les blocs wiki. Ce sont des paramètres globaux qui s'appliquent à tous les blocs wiki sauf s'ils sont remplacés par des paramètres spécifiques au bloc."
+
+msgid "Permission Types:"
+msgstr "Types de Permissions :"
+
+msgid "Who can approve and merge suggested changes to make them live."
+msgstr "Qui peut approuver et fusionner les modifications suggérées pour les rendre actives."
+
+msgid "Who can view the version history of wiki blocks."
+msgstr "Qui peut voir l'historique des versions des blocs wiki."
+
+msgid "Who can submit suggested changes to wiki blocks."
+msgstr "Qui peut soumettre des modifications suggérées aux blocs wiki."
+
+msgid "Clean up all data when plugin is deleted"
+msgstr "Nettoyer toutes les données lors de la suppression du plugin"
+
+msgid "If checked, all wiki block data (versions, settings) will be permanently deleted when the plugin is uninstalled. If unchecked, data will be preserved."
+msgstr "Si coché, toutes les données de blocs wiki (versions, paramètres) seront définitivement supprimées lors de la désinstallation du plugin. Si non coché, les données seront conservées."
+
+msgid "Initial version"
+msgstr "Version initiale"
+
+msgid "wiki"
+msgstr "wiki"
+
+msgid "collaborative"
+msgstr "collaboratif"
+
+msgid "version"
+msgstr "version"
+
+msgid "edit"
+msgstr "modifier"
+
+msgid "Color settings"
+msgstr "Paramètres de couleur"
+
+msgid "Background color"
+msgstr "Couleur d'arrière-plan"
+
+msgid "Text color"
+msgstr "Couleur du texte"
+
+msgid "This is a wiki block. Users can suggest changes and browse version history on the frontend."
+msgstr "Ceci est un bloc wiki. Les utilisateurs peuvent suggérer des modifications et parcourir l'historique des versions sur le frontend."
+
+msgid "Unable to load settings."
+msgstr "Impossible de charger les paramètres."
+
+msgid "Permission settings are managed globally in the Wiki Blocks settings page."
+msgstr "Les paramètres de permissions sont gérés globalement dans la page des paramètres des Blocs Wiki."
+
+msgid "Total Versions"
+msgstr "Total des Versions"
+
+msgid "Contributors"
+msgstr "Contributeurs"
+
+msgid "Recent Activity"
+msgstr "Activité Récente"
+
+msgid "suggested a change to"
+msgstr "a suggéré un changement à"
+
+msgid "No recent activity."
+msgstr "Aucune activité récente."
+
+msgid "Are you sure you want to delete all old versions? This action cannot be undone."
+msgstr "Êtes-vous sûr de vouloir supprimer toutes les anciennes versions ? Cette action ne peut pas être annulée."
+
+msgid "Cleanup completed successfully!"
+msgstr "Nettoyage terminé avec succès !"
+
+msgid "Error during cleanup. Please try again."
+msgstr "Erreur lors du nettoyage. Veuillez réessayer." 

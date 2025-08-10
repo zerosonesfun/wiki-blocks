@@ -1,0 +1,433 @@
+# Copyright (C) 2024 Billy Wilcosky
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wiki Blocks 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wilcosky.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:67
+msgid "Security check failed."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:72
+msgid "You must be logged in to suggest changes."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:81
+msgid "Missing required fields."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:86
+msgid "Invalid block ID format."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:91
+msgid "You do not have permission to suggest changes for this block."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:99
+msgid "Failed to save your suggestion."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:115
+msgid "Your suggestion has been submitted successfully. It will be reviewed and may be accepted as the new version."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:133
+msgid "You do not have permission to browse versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:175
+msgid "You must be logged in to merge versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:184
+msgid "You do not have permission to merge versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:194
+msgid "Failed to merge version."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:199
+msgid "Version merged successfully."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:225
+msgid "You must be logged in to save settings."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:234
+msgid "You do not have permission to edit this post."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:242
+msgid "Failed to save settings."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:247
+msgid "Settings saved successfully."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-ajax.php:279
+msgid "Invalid settings format."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:125
+msgid "Wiki Block"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:126
+msgid "A collaborative wiki block with version control."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:127
+msgid "Enter your wiki content here..."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:128
+msgid "Wiki Block Settings"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:129
+msgid "Merge Permissions"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:130
+msgid "Browse Permissions"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:131
+msgid "Require Login to Browse Versions"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:132
+msgid "Save Settings"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:133
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:134
+msgid "Error saving settings."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:165
+msgid "Wiki Blocks"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:220
+msgid "Suggest Change"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:227
+msgid "View History"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:237
+msgid "History"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:247
+msgid "Suggest a Change"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:252
+msgid "Change Summary"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:253
+msgid "Brief description of your changes..."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:256
+msgid "Content"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:260
+msgid "Submit Suggestion"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:261
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:90
+msgid "Loading..."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:91
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:92
+msgid "No versions found."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:93
+msgid "Be the first to suggest a change!"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:94
+msgid "Are you sure you want to make this version the current version?"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:95
+msgid "Version merged successfully!"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:96
+msgid "Your suggestion has been submitted successfully!"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:97
+msgid "Close"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:98
+msgid "Merge"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:99
+msgid "Submit"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:100
+msgid "Current"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:101
+msgid "by"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:102
+msgid "on"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:103
+msgid "Read Full Version"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-assets.php:104
+msgid "Show Less"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:47
+msgid "Wiki Blocks Settings"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:48
+msgid "Wiki Blocks"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:89
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:108
+msgid "Statistics"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:109
+msgid "Loading statistics..."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:115
+msgid "Maintenance"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:116
+msgid "Clean up old wiki block versions to free up database space."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:118
+msgid "Cleanup Old Versions"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:123
+msgid "Documentation"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:124
+msgid "Learn how to use Wiki Blocks effectively."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:126
+msgid "View Documentation"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:135
+msgid "Configure who can perform different actions with wiki blocks."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:145
+msgid "Select which user roles can merge wiki block versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:155
+msgid "Select which user roles can browse wiki block versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:165
+msgid "Require users to be logged in to browse versions"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:166
+msgid "If checked, only logged-in users can browse wiki block versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:175
+msgid "Select which user roles can suggest changes to wiki blocks."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:185
+msgid "Cleanup on Uninstall"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:186
+msgid "Remove all plugin data when uninstalling"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:187
+msgid "If checked, all wiki block data will be permanently deleted when the plugin is uninstalled."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:195
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:220
+msgid "Error during cleanup."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:225
+msgid "Cleanup completed. Deleted %d old versions."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:240
+msgid "Settings"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:267
+msgid "Configure who can perform different actions with wiki blocks. These are global settings that apply to all wiki blocks unless overridden by block-specific settings."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:269
+msgid "Permission Types:"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:271
+msgid "Who can approve and merge suggested changes to make them live."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:272
+msgid "Who can view the version history of wiki blocks."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:273
+msgid "Who can submit suggested changes to wiki blocks."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:348
+msgid "Clean up all data when plugin is deleted"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:349
+msgid "If checked, all wiki block data (versions, settings) will be permanently deleted when the plugin is uninstalled. If unchecked, data will be preserved."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-blocks.php:215
+msgid "Initial version"
+msgstr ""
+
+#: assets/js/editor.js:15
+msgid "wiki"
+msgstr ""
+
+#: assets/js/editor.js:16
+msgid "collaborative"
+msgstr ""
+
+#: assets/js/editor.js:17
+msgid "version"
+msgstr ""
+
+#: assets/js/editor.js:18
+msgid "edit"
+msgstr ""
+
+#: assets/js/editor.js:75
+msgid "Color settings"
+msgstr ""
+
+#: assets/js/editor.js:78
+msgid "Background color"
+msgstr ""
+
+#: assets/js/editor.js:82
+msgid "Text color"
+msgstr ""
+
+#: assets/js/editor.js:105
+msgid "This is a wiki block. Users can suggest changes and browse version history on the frontend."
+msgstr ""
+
+#: assets/js/editor.js:175
+msgid "Unable to load settings."
+msgstr ""
+
+#: assets/js/editor.js:200
+msgid "Permission settings are managed globally in the Wiki Blocks settings page."
+msgstr ""
+
+#: assets/js/admin.js:25
+msgid "Total Versions"
+msgstr ""
+
+#: assets/js/admin.js:30
+msgid "Wiki Blocks"
+msgstr ""
+
+#: assets/js/admin.js:35
+msgid "Contributors"
+msgstr ""
+
+#: assets/js/admin.js:42
+msgid "Recent Activity"
+msgstr ""
+
+#: assets/js/admin.js:50
+msgid "suggested a change to"
+msgstr ""
+
+#: assets/js/admin.js:54
+msgid "No recent activity."
+msgstr ""
+
+#: assets/js/admin.js:58
+msgid "Are you sure you want to delete all old versions? This action cannot be undone."
+msgstr ""
+
+#: assets/js/admin.js:67
+msgid "Cleanup completed successfully!"
+msgstr ""
+
+#: assets/js/admin.js:70
+msgid "Error during cleanup. Please try again."
+msgstr ""
+
+#: assets/js/admin.js:73
+msgid "Loading..."
+msgstr ""
+
+#: assets/js/admin.js:74
+msgid "An error occurred. Please try again."
+msgstr "" 
