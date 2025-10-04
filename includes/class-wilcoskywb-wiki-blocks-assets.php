@@ -82,11 +82,11 @@ class Wilcoskywb_Wiki_Blocks_Assets {
 			'wilcoskywbWikiBlocksFrontend',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonces' => array(
-					'getVersions' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_get_versions' ),
-					'suggestChange' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_suggest_change' ),
-					'mergeVersion' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_merge_version' ),
-				),
+			'nonces' => array(
+				'getVersions' => wp_create_nonce( 'wilcoskywb_wiki_blocks_get_versions' ),
+				'suggestChange' => wp_create_nonce( 'wilcoskywb_wiki_blocks_suggest_change' ),
+				'mergeVersion' => wp_create_nonce( 'wilcoskywb_wiki_blocks_merge_version' ),
+			),
 				'strings' => array(
 					'loading' => __( 'Loading...', 'wiki-blocks' ),
 					'error' => __( 'An error occurred. Please try again.', 'wiki-blocks' ),

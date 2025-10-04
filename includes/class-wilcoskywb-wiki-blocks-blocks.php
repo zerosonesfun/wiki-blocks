@@ -124,10 +124,10 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			'wilcoskywbWikiBlocks',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonces' => array(
-					'getSettings' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_get_settings' ),
-					'saveSettings' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_save_settings' ),
-				),
+			'nonces' => array(
+				'getSettings' => wp_create_nonce( 'wilcoskywb_wiki_blocks_get_settings' ),
+				'saveSettings' => wp_create_nonce( 'wilcoskywb_wiki_blocks_save_settings' ),
+			),
 				'roles' => Wilcoskywb_Wiki_Blocks_Permissions::get_available_roles_for_editor(),
 				'strings' => array(
 					'blockTitle' => __( 'Wiki Block', 'wiki-blocks' ),
@@ -246,17 +246,15 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 
 		// Suggest changes button (for logged-in users)
 		if ( $can_suggest_changes ) {
-			$enhanced_html .= '<button type="button" class="wilcoskywb-wiki-suggest-btn" data-action="suggest-change">';
-			$enhanced_html .= '<span class="dashicons dashicons-edit"></span>';
-			$enhanced_html .= esc_html__( 'Suggest Change', 'wiki-blocks' );
+			$enhanced_html .= '<button type="button" class="wilcoskywb-wiki-suggest-btn" data-action="suggest-change" title="' . esc_attr__( 'Suggest Change', 'wiki-blocks' ) . '">';
+			$enhanced_html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
 			$enhanced_html .= '</button>';
 		}
 
 		// Browse versions button
 		if ( $can_browse_versions ) {
-			$enhanced_html .= '<button type="button" class="wilcoskywb-wiki-browse-btn" data-action="browse-versions">';
-			$enhanced_html .= '<span class="dashicons dashicons-backup"></span>';
-			$enhanced_html .= esc_html__( 'View History', 'wiki-blocks' );
+			$enhanced_html .= '<button type="button" class="wilcoskywb-wiki-browse-btn" data-action="browse-versions" title="' . esc_attr__( 'View History', 'wiki-blocks' ) . '">';
+			$enhanced_html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
 			$enhanced_html .= '</button>';
 		}
 
@@ -389,17 +387,15 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 
 		// Suggest changes button (for logged-in users)
 		if ( $can_suggest_changes ) {
-			$html .= '<button type="button" class="wilcoskywb-wiki-suggest-btn" data-action="suggest-change">';
-			$html .= '<span class="dashicons dashicons-edit"></span>';
-			$html .= esc_html__( 'Suggest Change', 'wiki-blocks' );
+			$html .= '<button type="button" class="wilcoskywb-wiki-suggest-btn" data-action="suggest-change" title="' . esc_attr__( 'Suggest Change', 'wiki-blocks' ) . '">';
+			$html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
 			$html .= '</button>';
 		}
 
 		// Browse versions button
 		if ( $can_browse_versions ) {
-			$html .= '<button type="button" class="wilcoskywb-wiki-browse-btn" data-action="browse-versions">';
-			$html .= '<span class="dashicons dashicons-backup"></span>';
-			$html .= esc_html__( 'View History', 'wiki-blocks' );
+			$html .= '<button type="button" class="wilcoskywb-wiki-browse-btn" data-action="browse-versions" title="' . esc_attr__( 'View History', 'wiki-blocks' ) . '">';
+			$html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
 			$html .= '</button>';
 		}
 

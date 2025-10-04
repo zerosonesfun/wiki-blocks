@@ -108,6 +108,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			'wilcoskywb_wiki_blocks_require_login_browse',
 			array(
 				'type' => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'default' => false,
 			)
 		);
@@ -117,6 +118,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			'wilcoskywb_wiki_blocks_cleanup_on_uninstall',
 			array(
 				'type' => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'default' => true,
 			)
 		);
@@ -199,7 +201,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			'wilcoskywbWikiBlocksAdmin',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce' => Wilcoskywb_Wiki_Blocks_Permissions::create_nonce( 'wilcoskywb_wiki_blocks_admin' ),
+				'nonce' => wp_create_nonce( 'wilcoskywb_wiki_blocks_admin' ),
 				'strings' => array(
 					'confirmCleanup' => __( 'Are you sure you want to delete all old versions? This action cannot be undone.', 'wiki-blocks' ),
 					'cleanupSuccess' => __( 'Cleanup completed successfully!', 'wiki-blocks' ),
@@ -379,8 +381,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 	 */
 	public function get_admin_stats() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_admin' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_admin' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -397,11 +398,15 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 
 		if ( false === $stats ) {
 			// Direct database queries are necessary for custom table operations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$total_versions = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions" );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$total_blocks = $wpdb->get_var( "SELECT COUNT(DISTINCT block_id) FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions" );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$total_users = $wpdb->get_var( "SELECT COUNT(DISTINCT user_id) FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions" );
 
 			// Get recent activity with post information
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$recent_activity = $wpdb->get_results(
 				"SELECT v.*, u.display_name, p.post_title, v.block_id
 				FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions v
@@ -430,8 +435,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 	 */
 	public function cleanup_versions() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_admin' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_admin' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -443,6 +447,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 		global $wpdb;
 
 		// Direct database query is necessary for custom table cleanup operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$deleted = $wpdb->query(
 			"DELETE v1 FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions v1
 			LEFT JOIN (

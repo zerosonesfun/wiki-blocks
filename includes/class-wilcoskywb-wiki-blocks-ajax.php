@@ -65,8 +65,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 	 */
 	public function suggest_change() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_suggest_change' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_suggest_change' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -140,8 +139,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 	 */
 	public function get_versions() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_get_versions' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_get_versions' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -194,8 +192,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 	 */
 	public function merge_version() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_merge_version' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_merge_version' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -239,8 +236,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 	 */
 	public function get_settings() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_get_settings' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_get_settings' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -264,8 +260,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 	 */
 	public function save_settings() {
 		// Verify nonce
-		$nonce = wp_unslash( $_POST['nonce'] ?? '' );
-		if ( ! Wilcoskywb_Wiki_Blocks_Permissions::verify_nonce( $nonce, 'wilcoskywb_wiki_blocks_save_settings' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_save_settings' ) ) {
 			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
 		}
 
@@ -276,7 +271,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 
 		// Validate required fields
 		$block_id = sanitize_text_field( wp_unslash( $_POST['block_id'] ?? '' ) );
-		$settings_json = wp_unslash( $_POST['settings'] ?? '{}' );
+		$settings_json = sanitize_textarea_field( wp_unslash( $_POST['settings'] ?? '{}' ) );
 
 		if ( empty( $block_id ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Missing required fields.', 'wiki-blocks' ) ) );
@@ -288,8 +283,32 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 			wp_send_json_error( array( 'message' => esc_html__( 'Invalid settings format.', 'wiki-blocks' ) ) );
 		}
 
+		// Sanitize the decoded settings data
+		$sanitized_settings = array();
+		if ( is_array( $settings ) ) {
+			// Sanitize merge_permissions array
+			if ( isset( $settings['merge_permissions'] ) && is_array( $settings['merge_permissions'] ) ) {
+				$sanitized_settings['merge_permissions'] = array_map( 'sanitize_text_field', $settings['merge_permissions'] );
+			}
+			
+			// Sanitize browse_permissions array
+			if ( isset( $settings['browse_permissions'] ) && is_array( $settings['browse_permissions'] ) ) {
+				$sanitized_settings['browse_permissions'] = array_map( 'sanitize_text_field', $settings['browse_permissions'] );
+			}
+			
+			// Sanitize suggest_permissions array
+			if ( isset( $settings['suggest_permissions'] ) && is_array( $settings['suggest_permissions'] ) ) {
+				$sanitized_settings['suggest_permissions'] = array_map( 'sanitize_text_field', $settings['suggest_permissions'] );
+			}
+			
+			// Sanitize require_login_browse boolean
+			if ( isset( $settings['require_login_browse'] ) ) {
+				$sanitized_settings['require_login_browse'] = (bool) $settings['require_login_browse'];
+			}
+		}
+
 		// Save settings
-		$success = Wilcoskywb_Wiki_Blocks_Database::save_block_settings( $block_id, $settings );
+		$success = Wilcoskywb_Wiki_Blocks_Database::save_block_settings( $block_id, $sanitized_settings );
 
 		if ( ! $success ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Failed to save settings.', 'wiki-blocks' ) ) );

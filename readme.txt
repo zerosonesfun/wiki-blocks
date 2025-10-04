@@ -8,15 +8,15 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add wiki functionality to Gutenberg blocks with version control and user collaboration features.
+Add wiki Gutenberg blocks to any page/post with version control and user collaboration features.
 
 == Description ==
 
-Wiki Blocks transforms your Gutenberg blocks into collaborative wiki content with full version control. Users can suggest changes, review version history, and merge updates with proper permission controls.
+Wiki Blocks lets you add collaborative wiki content with full version control. Users can suggest changes, review version history, and merge updates with proper permission controls.
 
 = Key Features =
 
-* **Gutenberg Block Integration**: Seamlessly adds wiki functionality to any Gutenberg block
+* **Gutenberg Block Integration**: Seamlessly adds the wiki block type
 * **Version Control**: Complete history of all changes with user attribution
 * **Collaborative Editing**: Users can suggest changes that are reviewed before acceptance
 * **Permission System**: Granular control over who can suggest, browse, and merge changes
@@ -57,7 +57,7 @@ Wiki Blocks transforms your Gutenberg blocks into collaborative wiki content wit
 
 = Can I use this with existing content? =
 
-Yes! Wiki Blocks works with any Gutenberg block. You can convert existing content by adding the Wiki Block and setting the initial content.
+Yes! You can convert existing content by adding the Wiki Block and setting the initial content.
 
 = What happens if I disable the plugin? =
 
@@ -86,9 +86,12 @@ The plugin includes an uninstall option that can completely remove all wiki data
 3. Version History Modal
 4. Suggest Changes Form
 5. Admin Settings Page
-6. Permission Configuration
+6. Merge action button on frontend
 
 == Changelog ==
+
+= 1.0.1 =
+* Readme edits
 
 = 1.0.0 =
 * Initial release
@@ -116,7 +119,7 @@ This plugin is translation-ready and includes a POT file for internationalizatio
 
 == Support ==
 
-For support, feature requests, or bug reports, please visit the [plugin support page](https://wilcosky.com/support) or contact the developer.
+For support, feature requests, or bug reports, please visit the [plugin support page](https://wilcosky.com/contact).
 
 == Credits ==
 
@@ -178,14 +181,7 @@ Wiki Blocks is built with:
 
 Future versions may include:
 
-* Bulk version management
-* Version comparison tools
-* Export/import functionality
-* Advanced permission workflows
-* Integration with other plugins
-* REST API endpoints
-* Webhook support
-* Advanced analytics
+* What you suggest
 
 == Contributing ==
 
@@ -201,8 +197,6 @@ Contributions are welcome! Please:
 
 If you find this plugin useful, consider supporting its development:
 
-* [Donate via PayPal](https://wilcosky.com/donate)
-* [Sponsor on GitHub](https://github.com/wilcosky/wiki-blocks)
-* [Purchase premium support](https://wilcosky.com/support)
+* [Donate](https://buymeacoffee.com/billyw
 
 Thank you for using Wiki Blocks! 

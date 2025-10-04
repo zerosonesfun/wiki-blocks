@@ -104,18 +104,21 @@ class Wilcoskywb_Wiki_Blocks_Database {
 	public static function run_migrations() {
 		global $wpdb;
 
-		$current_version = get_option( 'wilcoskywb_wiki_blocks_db_version', '1.0.0' );
+		$current_version = get_option( 'wilcoskywb_wiki_blocks_db_version', '1.0.1' );
 
 		// Migration 1.0.1: Add post_id column to versions table
 		if ( version_compare( $current_version, '1.0.1', '<' ) ) {
 			$table_name = $wpdb->prefix . 'wilcoskywb_wiki_block_versions';
 			
-			// Check if post_id column exists
-			$column_exists = $wpdb->get_results( "SHOW COLUMNS FROM $table_name LIKE 'post_id'" );
+		// Check if post_id column exists
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$column_exists = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM %i LIKE %s", $table_name, 'post_id' ) );
 			
 			if ( empty( $column_exists ) ) {
-				$wpdb->query( "ALTER TABLE $table_name ADD COLUMN post_id bigint(20) unsigned DEFAULT NULL AFTER block_id" );
-				$wpdb->query( "ALTER TABLE $table_name ADD KEY post_id (post_id)" );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange
+				$wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD COLUMN post_id bigint(20) unsigned DEFAULT NULL AFTER block_id", $table_name ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange
+				$wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD KEY post_id (post_id)", $table_name ) );
 			}
 			
 			update_option( 'wilcoskywb_wiki_blocks_db_version', '1.0.1' );
@@ -147,6 +150,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		// Check if this is the first version (no existing versions)
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$existing_versions = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(*) FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions WHERE block_id = %s",
@@ -159,7 +163,8 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		// Check if post_id column exists
 		$table_name = $wpdb->prefix . 'wilcoskywb_wiki_block_versions';
-		$column_exists = $wpdb->get_results( "SHOW COLUMNS FROM $table_name LIKE 'post_id'" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$column_exists = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM %i LIKE %s", $table_name, 'post_id' ) );
 		
 		// Prepare insert data - use the correct column order
 		$insert_data = array(
@@ -189,6 +194,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		}
 
 		// Insert new version
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$table_name,
 			$insert_data,
@@ -217,6 +223,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		global $wpdb;
 
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$max_version = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT MAX(version_number) FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions WHERE block_id = %s",
@@ -245,6 +252,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		if ( false === $versions ) {
 			// Direct database query is necessary for custom table operations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$versions = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT v.*, u.display_name, u.user_email 
@@ -281,6 +289,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		if ( false === $version ) {
 			// Direct database query is necessary for custom table operations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$version = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT v.*, u.display_name, u.user_email 
@@ -311,6 +320,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		$version_id = absint( $version_id );
 
 		// Get the version to merge
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$version = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->prefix}wilcoskywb_wiki_block_versions WHERE id = %d",
@@ -324,6 +334,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		// Set all versions for this block as not current
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->update(
 			$wpdb->prefix . 'wilcoskywb_wiki_block_versions',
 			array( 'is_current' => 0 ),
@@ -334,6 +345,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		// Set the selected version as current
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->update(
 			$wpdb->prefix . 'wilcoskywb_wiki_block_versions',
 			array( 'is_current' => 1 ),
@@ -379,6 +391,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		);
 
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->replace(
 			$wpdb->prefix . 'wilcoskywb_wiki_block_settings',
 			$data,
@@ -411,6 +424,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 
 		if ( false === $settings ) {
 			// Direct database query is necessary for custom table operations
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$settings = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->prefix}wilcoskywb_wiki_block_settings WHERE block_id = %s",
@@ -453,6 +467,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		$block_id = sanitize_text_field( $block_id );
 
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->delete(
 			$wpdb->prefix . 'wilcoskywb_wiki_block_versions',
 			array( 'block_id' => $block_id ),
@@ -481,6 +496,7 @@ class Wilcoskywb_Wiki_Blocks_Database {
 		$block_id = sanitize_text_field( $block_id );
 
 		// Direct database query is necessary for custom table operations
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->delete(
 			$wpdb->prefix . 'wilcoskywb_wiki_block_settings',
 			array( 'block_id' => $block_id ),

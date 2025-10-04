@@ -10,15 +10,15 @@
     position: relative;
     margin: 1.5em 0;
     padding: 1.5em;
-    border: 2px dashed #0073aa;
-    background: #f8f9fa;
+    border: none;
+    background: transparent;
     border-radius: 0;
 }
 
 .wilcoskywb-wiki-block-editor:focus-within {
-    border-color: #005a87;
-    background: #ffffff;
-    box-shadow: 0 0 0 1px #0073aa;
+    border: 2px dashed #0073aa;
+    background: transparent;
+    box-shadow: none;
 }
 
 /* Wiki Block Content in Editor */

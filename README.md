@@ -1,199 +1,203 @@
 # Wiki Blocks
 
-A WordPress plugin that adds collaborative wiki functionality to Gutenberg blocks with version control and user collaboration features.
+**Contributors:** wilcosky  
+**Tags:** blocks, gutenberg, wiki, collaboration, version-control  
+**Requires at least:** 5.0  
+**Tested up to:** 6.8  
+**Requires PHP:** 8.0  
+**Stable tag:** 1.0.0  
+**License:** GPLv2 or later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+
+Add wiki Gutenberg blocks to any page/post with version control and user collaboration features.
 
 ## Description
 
-Wiki Blocks allows you to add wiki-style blocks to your WordPress posts and pages using the Gutenberg editor. Users can suggest changes to the content, and administrators can review and merge different versions. The plugin provides a complete version control system with user permissions, change tracking, and a modern interface.
+Wiki Blocks lets you add collaborative wiki content with full version control. Users can suggest changes, review version history, and merge updates with proper permission controls.
 
-## Features
+### Key Features
 
-- **Gutenberg Block Integration**: Add wiki blocks directly in the WordPress editor
-- **Version Control**: Track all changes with full version history
-- **User Collaboration**: Allow logged-in users to suggest changes
-- **Permission System**: Configure who can merge versions and browse history
-- **Modern UI**: Clean, responsive interface with modals and notifications
-- **Accessibility**: WCAG compliant with keyboard navigation and screen reader support
-- **Security**: Proper sanitization, validation, and nonce protection
-- **WordPress Standards**: Follows all WordPress coding standards and best practices
+- **Gutenberg Block Integration**: Seamlessly adds the wiki block type
+- **Version Control**: Complete history of all changes with user attribution
+- **Collaborative Editing**: Users can suggest changes that are reviewed before acceptance
+- **Permission System**: Granular control over who can suggest, browse, and merge changes
+- **Modern UI**: Clean, responsive interface with modal dialogs
+- **Accessibility**: Full accessibility support with keyboard navigation and screen reader compatibility
 
-## Requirements
+### How It Works
 
-- WordPress 5.0 or higher
-- PHP 8.0 or higher
-- MySQL 5.6 or higher
+1. **Add a Wiki Block**: Insert the Wiki Block into any post or page
+2. **Initial Content**: Set the initial content that becomes the first version
+3. **User Suggestions**: Logged-in users can suggest changes with summaries
+4. **Version History**: Browse all versions with excerpts and full content views
+5. **Review & Merge**: Administrators or authorized users can merge suggestions into the live version
+
+### Permission Levels
+
+- **Suggest Changes**: Control which user roles can submit suggestions
+- **Browse History**: Manage who can view version history
+- **Merge Versions**: Restrict who can accept changes as the new live version
+- **Login Requirements**: Optionally require login to browse versions
+
+### Use Cases
+
+- **Documentation Sites**: Collaborative documentation with version tracking
+- **Knowledge Bases**: Community-driven content with review process
+- **Policy Pages**: Controlled content updates with approval workflow
+- **Educational Content**: Student contributions with teacher oversight
+- **Team Wikis**: Internal knowledge sharing with permission controls
 
 ## Installation
 
-1. Download the plugin files
-2. Upload the `wiki-blocks` folder to the `/wp-content/plugins/` directory
-3. Activate the plugin through the 'Plugins' menu in WordPress
-4. Configure the plugin settings under 'Settings > Wiki Blocks'
+1. Upload the `wiki-blocks` folder to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Configure global permissions in 'Settings > Wiki Blocks'
+4. Add Wiki Blocks to your posts and pages using the Gutenberg editor
 
-## Usage
+## Frequently Asked Questions
 
-### Adding a Wiki Block
+### Can I use this with existing content?
 
-1. Edit a post or page in the Gutenberg editor
-2. Click the '+' button to add a new block
-3. Search for "Wiki Block" or find it in the "Wiki Blocks" category
-4. Add your content to the block
-5. Publish or update the post
+Yes! You can convert existing content by adding the Wiki Block and setting the initial content.
 
-### Frontend Features
+### What happens if I disable the plugin?
 
-#### For Logged-in Users
-- **Suggest Changes**: Click "Suggest Change" to propose modifications
-- **View History**: Click "View History" to browse all versions
-- **Merge Versions**: If you have permission, merge any version as the current version
+Your content remains intact. The plugin only enhances blocks with wiki functionality - your original content is preserved.
 
-#### For Administrators
-- **Manage Permissions**: Configure who can merge and browse versions
-- **Review Changes**: See all suggested changes with user information
-- **Version Control**: Maintain complete history of all modifications
+### Can I control who can make changes?
 
-### Settings Configuration
+Absolutely! You can set permissions globally and per-block for suggesting changes, browsing history, and merging versions.
 
-Navigate to **Settings > Wiki Blocks** to configure:
+### Is this compatible with my theme?
 
-- **Merge Permissions**: Select which user roles can merge versions
-- **Browse Permissions**: Choose who can view version history
-- **Login Requirements**: Optionally require login to browse versions
+Yes, Wiki Blocks is designed to work with any WordPress theme and follows WordPress coding standards.
 
-## File Structure
+### Can I export version history?
 
-```
-wiki-blocks/
-├── wiki-blocks.php                 # Main plugin file
-├── includes/                       # PHP classes
-│   ├── class-wilcoskywb-wiki-blocks-admin.php
-│   ├── class-wilcoskywb-wiki-blocks-ajax.php
-│   ├── class-wilcoskywb-wiki-blocks-assets.php
-│   ├── class-wilcoskywb-wiki-blocks-blocks.php
-│   ├── class-wilcoskywb-wiki-blocks-database.php
-│   └── class-wilcoskywb-wiki-blocks-permissions.php
-├── assets/                         # Frontend assets
-│   ├── css/
-│   │   ├── admin.css
-│   │   ├── editor.css
-│   │   └── frontend.css
-│   └── js/
-│       ├── admin.js
-│       ├── editor.js
-│       └── frontend.js
-├── languages/                      # Translation files
-└── README.md
-```
+Version history is stored in the database and can be exported using standard WordPress database export tools.
 
-## Database Tables
+### What if I want to remove all wiki data?
 
-The plugin creates two database tables:
+The plugin includes an uninstall option that can completely remove all wiki data when the plugin is deleted.
 
-### `wp_wilcoskywb_wiki_block_versions`
-Stores all version history for wiki blocks:
-- `id`: Primary key
-- `block_id`: Unique block identifier
-- `post_id`: Associated post ID
-- `content`: Block content
-- `user_id`: User who made the change
-- `version_number`: Sequential version number
-- `is_current`: Whether this is the current version
-- `change_summary`: Description of changes
-- `created_at`: Timestamp
+## Screenshots
 
-### `wp_wilcoskywb_wiki_block_settings`
-Stores block-specific settings:
-- `id`: Primary key
-- `block_id`: Unique block identifier
-- `post_id`: Associated post ID
-- `merge_permissions`: JSON array of allowed roles
-- `browse_permissions`: JSON array of allowed roles
-- `require_login_browse`: Boolean flag
-- `created_at`: Timestamp
-- `updated_at`: Last update timestamp
-
-## Security Features
-
-- **Nonce Verification**: All AJAX requests are protected with WordPress nonces
-- **Input Sanitization**: All user inputs are properly sanitized
-- **Output Escaping**: All output is escaped using appropriate WordPress functions
-- **Permission Checks**: Comprehensive permission system for all actions
-- **SQL Prepared Statements**: All database queries use prepared statements
-- **Prefix Protection**: Uses unique plugin prefix to avoid conflicts
-
-## Accessibility
-
-- **Keyboard Navigation**: Full keyboard support for all interactions
-- **Screen Reader Support**: Proper ARIA labels and semantic HTML
-- **High Contrast Mode**: Support for high contrast display preferences
-- **Reduced Motion**: Respects user's motion preferences
-- **Focus Management**: Proper focus handling in modals and forms
-
-## Hooks and Filters
-
-### Actions
-- `wilcoskywb_wiki_blocks_version_created`: Fired when a new version is created
-- `wilcoskywb_wiki_blocks_version_merged`: Fired when a version is merged
-- `wilcoskywb_wiki_blocks_settings_updated`: Fired when settings are updated
-
-### Filters
-- `wilcoskywb_wiki_blocks_merge_permissions`: Modify merge permissions
-- `wilcoskywb_wiki_blocks_browse_permissions`: Modify browse permissions
-- `wilcoskywb_wiki_blocks_version_content`: Filter version content before saving
-- `wilcoskywb_wiki_blocks_display_content`: Filter content before display
-
-## Development
-
-### Building from Source
-
-1. Clone the repository
-2. Install dependencies (if any)
-3. Make your changes
-4. Test thoroughly
-5. Follow WordPress coding standards
-
-### Coding Standards
-
-This plugin follows:
-- WordPress Coding Standards
-- WordPress Plugin Development Guidelines
-- PSR-12 PHP Standards
-- Modern JavaScript ES6+ standards
-
-### Testing
-
-- Test with different user roles
-- Test with various content types
-- Test on different devices and browsers
-- Test accessibility features
-- Test security measures
-
-## Support
-
-For support, feature requests, or bug reports, please contact the plugin author.
+1. Wiki Block in Gutenberg Editor
+2. Frontend Wiki Block with Controls
+3. Version History Modal
+4. Suggest Changes Form
+5. Admin Settings Page
+6. Merge action button on frontend
 
 ## Changelog
 
-### Version 1.0.0
+### 1.0.1
+- Readme edits
+
+### 1.0.0
 - Initial release
 - Gutenberg block integration
 - Version control system
-- User collaboration features
 - Permission management
-- Modern UI with modals
-- Accessibility support
-- Security features
+- Responsive UI design
+- Accessibility features
+- Cache busting for assets
+- Comprehensive error handling
+
+## Upgrade Notice
+
+### 1.0.0
+Initial release of Wiki Blocks plugin.
+
+## Translation
+
+This plugin is translation-ready and includes a POT file for internationalization. To contribute translations:
+
+1. Download the POT file from `/languages/wiki-blocks.pot`
+2. Translate using a tool like Poedit
+3. Save as `wiki-blocks-{locale}.po` and `wiki-blocks-{locale}.mo`
+4. Submit translations to the plugin repository
+
+## Support
+
+For support, feature requests, or bug reports, please visit the [plugin support page](https://wilcosky.com/contact).
+
+## Credits
+
+Developed by [Billy Wilcosky](https://wilcosky.com)
+
+Built with WordPress best practices and modern web standards.
 
 ## License
 
 This plugin is licensed under the GPL v2 or later.
 
-## Author
+## Privacy
 
-**Billy Wilcosky** - [wilcosky.com](https://wilcosky.com)
+Wiki Blocks stores version history and user contributions in your WordPress database. This data includes:
 
-## Credits
+- Content versions and change summaries
+- User attribution for changes
+- Block-specific settings and permissions
 
-- Built for WordPress
-- Uses WordPress core APIs and standards
-- Follows WordPress plugin development best practices 
+No data is sent to external servers. All information remains within your WordPress installation.
+
+## Security
+
+Wiki Blocks follows WordPress security best practices:
+
+- All user inputs are sanitized and validated
+- Nonces are used for all AJAX requests
+- SQL queries use prepared statements
+- Output is properly escaped
+- Permission checks are performed on all actions
+
+## Performance
+
+- Optimized database queries with proper indexing
+- Efficient asset loading with cache busting
+- Minimal impact on page load times
+- Responsive design for all devices
+
+## Accessibility
+
+- Full keyboard navigation support
+- Screen reader compatible
+- High contrast mode support
+- Reduced motion preferences respected
+- Semantic HTML structure
+- ARIA labels and descriptions
+
+## Development
+
+Wiki Blocks is built with:
+
+- PHP 8.0+ compatibility
+- WordPress coding standards
+- Modern JavaScript (ES6+)
+- Responsive CSS with Flexbox/Grid
+- Accessibility-first design principles
+
+## Roadmap
+
+Future versions may include:
+
+- What you suggest
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Follow WordPress coding standards
+2. Include proper documentation
+3. Test thoroughly before submitting
+4. Use meaningful commit messages
+5. Respect accessibility guidelines
+
+## Donate
+
+If you find this plugin useful, consider supporting its development:
+
+- [Donate](https://buymeacoffee.com/billyw)
+
+Thank you for using Wiki Blocks!

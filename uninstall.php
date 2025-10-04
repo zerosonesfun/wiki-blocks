@@ -23,7 +23,9 @@ global $wpdb;
 
 // Drop custom tables - Direct database queries are necessary for plugin uninstallation
 // These operations remove custom plugin tables and their data
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wilcoskywb_wiki_block_versions" );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wilcoskywb_wiki_block_settings" );
 
 // Delete plugin options
