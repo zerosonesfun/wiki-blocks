@@ -91,6 +91,11 @@ The plugin includes an uninstall option that can completely remove all wiki data
 
 ## Changelog
 
+### 1.1.0
+- Added formatting and image handling
+- Added more clean up options
+- Fixed bugs
+
 ### 1.0.1
 - Readme edits
 
@@ -106,8 +111,8 @@ The plugin includes an uninstall option that can completely remove all wiki data
 
 ## Upgrade Notice
 
-### 1.0.0
-Initial release of Wiki Blocks plugin.
+### 1.1.0
+1.1.0 is a major update which fixes bugs and provides necessary features.
 
 ## Translation
 
