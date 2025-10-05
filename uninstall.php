@@ -29,7 +29,10 @@ $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wilcoskywb_wiki_block_version
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wilcoskywb_wiki_block_settings" );
 
 // Delete plugin options
-delete_option( 'wilcoskywb_wiki_blocks_cleanup_on_uninstall' );
+	delete_option( 'wilcoskywb_wiki_blocks_cleanup_on_uninstall' );
+	delete_option( 'wilcoskywb_wiki_blocks_cleanup_on_delete' );
+	delete_option( 'wilcoskywb_wiki_blocks_activity_retention_days' );
+	delete_option( 'wilcoskywb_wiki_blocks_max_versions_per_block' );
 delete_option( 'wilcoskywb_wiki_blocks_merge_permissions' );
 delete_option( 'wilcoskywb_wiki_blocks_browse_permissions' );
 delete_option( 'wilcoskywb_wiki_blocks_suggest_permissions' );

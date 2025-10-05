@@ -52,6 +52,7 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_suggest_change', array( $this, 'suggest_change' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_get_versions', array( $this, 'get_versions' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_merge_version', array( $this, 'merge_version' ) );
+		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_get_current_version', array( $this, 'get_current_version' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_get_settings', array( $this, 'get_settings' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_save_settings', array( $this, 'save_settings' ) );
 
@@ -228,6 +229,44 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 
 		wp_send_json_success( array(
 			'message' => esc_html__( 'Version merged successfully.', 'wiki-blocks' ),
+		) );
+	}
+
+	/**
+	 * Get current version content for block editor
+	 */
+	public function get_current_version() {
+		// Verify nonce
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_get_current_version' ) ) {
+			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
+		}
+
+		// Check if user is logged in
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You must be logged in to access this content.', 'wiki-blocks' ) ) );
+		}
+
+		// Validate required fields
+		$block_id = sanitize_text_field( wp_unslash( $_POST['block_id'] ?? '' ) );
+
+		if ( empty( $block_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Missing required fields.', 'wiki-blocks' ) ) );
+		}
+
+		// Validate block_id format
+		if ( ! preg_match( '/^[a-zA-Z0-9\-_]+$/', $block_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid block ID format.', 'wiki-blocks' ) ) );
+		}
+
+		// Get current version
+		$current_version = Wilcoskywb_Wiki_Blocks_Database::get_current_version( $block_id );
+
+		if ( ! $current_version ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'No current version found.', 'wiki-blocks' ) ) );
+		}
+
+		wp_send_json_success( array(
+			'content' => $current_version->content,
 		) );
 	}
 

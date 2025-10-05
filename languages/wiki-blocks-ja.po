@@ -192,6 +192,45 @@ msgstr "古いWikiブロックバージョンをクリーンアップしてデ�
 msgid "Cleanup Old Versions"
 msgstr "古いバージョンをクリーンアップ"
 
+msgid "Remove wiki content that is no longer associated with any existing posts or pages."
+msgstr "既存の投稿やページに関連付けられなくなったウィキコンテンツを削除します。"
+
+msgid "Cleanup Orphaned Content"
+msgstr "孤立したコンテンツをクリーンアップ"
+
+msgid "Maintenance Help"
+msgstr "メンテナンスヘルプ"
+
+msgid "Cleanup Old Versions:"
+msgstr "古いバージョンをクリーンアップ："
+
+msgid "Removes orphaned version numbers that are higher than the current version. This typically happens when suggestions are made but never merged, or when multiple suggestions are created before any are accepted. The current version and all valid historical versions are preserved."
+msgstr "現在のバージョンより高い孤立したバージョン番号を削除します。これは通常、提案がなされるがマージされない場合、または複数の提案が承認される前に作成される場合に発生します。現在のバージョンとすべての有効な履歴バージョンは保持されます。"
+
+msgid "Cleanup Orphaned Content:"
+msgstr "孤立したコンテンツをクリーンアップ："
+
+msgid "Removes all wiki block content (versions and settings) that is no longer associated with any existing posts or pages. This includes content from deleted posts, blocks that were never properly associated with posts, and any other orphaned data that cannot be accessed through normal WordPress content."
+msgstr "既存の投稿やページに関連付けられなくなったすべてのウィキブロックコンテンツ（バージョンと設定）を削除します。これには、削除された投稿からのコンテンツ、投稿に適切に関連付けられなかったブロック、通常のWordPressコンテンツを通じてアクセスできないその他の孤立したデータが含まれます。"
+
+msgid "Important:"
+msgstr "重要："
+
+msgid "All cleanup operations are irreversible. Always backup your database before running cleanup operations."
+msgstr "すべてのクリーンアップ操作は元に戻せません。クリーンアップ操作を実行する前に、常にデータベースをバックアップしてください。"
+
+msgid "Remove old activity data to prevent database bloat while preserving recent versions and current content."
+msgstr "最近のバージョンと現在のコンテンツを保持しながら、データベースの肥大化を防ぐために古いアクティビティデータを削除します。"
+
+msgid "Cleanup Old Activity"
+msgstr "古いアクティビティをクリーンアップ"
+
+msgid "Cleanup Old Activity:"
+msgstr "古いアクティビティをクリーンアップ："
+
+msgid "Removes old version history to prevent database bloat while preserving recent activity and current versions. Uses configurable retention settings: keeps versions newer than specified days and limits the number of versions per block. Current versions are always preserved."
+msgstr "最近のアクティビティと現在のバージョンを保持しながら、データベースの肥大化を防ぐために古いバージョン履歴を削除します。設定可能な保持設定を使用：指定された日数より新しいバージョンを保持し、ブロックごとのバージョン数を制限します。現在のバージョンは常に保持されます。"
+
 msgid "Documentation"
 msgstr "ドキュメント"
 
@@ -311,6 +350,12 @@ msgstr "最近のアクティビティはありません。"
 
 msgid "Are you sure you want to delete all old versions? This action cannot be undone."
 msgstr "すべての古いバージョンを削除してもよろしいですか？この操作は元に戻せません。"
+
+msgid "Are you sure you want to delete all wiki content that is no longer associated with any posts? This action cannot be undone."
+msgstr "投稿に関連付けられなくなったすべてのウィキコンテンツを削除してもよろしいですか？この操作は元に戻せません。"
+
+msgid "Are you sure you want to delete old activity data? This will remove version history older than your retention settings. Current versions will be preserved. This action cannot be undone."
+msgstr "古いアクティビティデータを削除してもよろしいですか？これは保持設定より古いバージョン履歴を削除します。現在のバージョンは保持されます。この操作は元に戻せません。"
 
 msgid "Cleanup completed successfully!"
 msgstr "クリーンアップが正常に完了しました！"

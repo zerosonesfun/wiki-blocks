@@ -53,6 +53,8 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_admin_get_stats', array( $this, 'get_admin_stats' ) );
 		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_admin_cleanup_versions', array( $this, 'cleanup_versions' ) );
+		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_admin_cleanup_orphaned', array( $this, 'cleanup_orphaned_content' ) );
+		add_action( 'wp_ajax_wilcoskywb_wiki_blocks_admin_cleanup_old_activity', array( $this, 'cleanup_old_activity' ) );
 		add_filter( 'plugin_action_links_' . WILCOSKYWB_WIKI_BLOCKS_PLUGIN_BASENAME, array( $this, 'add_plugin_links' ) );
 	}
 
@@ -204,6 +206,8 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 				'nonce' => wp_create_nonce( 'wilcoskywb_wiki_blocks_admin' ),
 				'strings' => array(
 					'confirmCleanup' => __( 'Are you sure you want to delete all old versions? This action cannot be undone.', 'wiki-blocks' ),
+					'orphanedCleanupConfirm' => __( 'Are you sure you want to delete all wiki content that is no longer associated with any posts? This action cannot be undone.', 'wiki-blocks' ),
+					'activityCleanupConfirm' => __( 'Are you sure you want to delete old activity data? This will remove version history older than your retention settings. Current versions will be preserved. This action cannot be undone.', 'wiki-blocks' ),
 					'cleanupSuccess' => __( 'Cleanup completed successfully!', 'wiki-blocks' ),
 					'cleanupError' => __( 'Error during cleanup. Please try again.', 'wiki-blocks' ),
 					'loading' => __( 'Loading...', 'wiki-blocks' ),
@@ -249,12 +253,40 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 						<button type="button" id="wilcoskywb-wiki-blocks-cleanup" class="button button-secondary">
 							<?php esc_html_e( 'Cleanup Old Versions', 'wiki-blocks' ); ?>
 						</button>
+						<br><br>
+						<p><?php esc_html_e( 'Remove wiki content that is no longer associated with any existing posts or pages.', 'wiki-blocks' ); ?></p>
+						<button type="button" id="wilcoskywb-wiki-blocks-cleanup-orphaned" class="button button-secondary">
+							<?php esc_html_e( 'Cleanup Orphaned Content', 'wiki-blocks' ); ?>
+						</button>
+						<br><br>
+						<p><?php esc_html_e( 'Remove old activity data to prevent database bloat while preserving recent versions and current content.', 'wiki-blocks' ); ?></p>
+						<button type="button" id="wilcoskywb-wiki-blocks-cleanup-activity" class="button button-secondary">
+							<?php esc_html_e( 'Cleanup Old Activity', 'wiki-blocks' ); ?>
+						</button>
+					</div>
+
+					<div class="wilcoskywb-wiki-blocks-admin-widget">
+						<h3><?php esc_html_e( 'Maintenance Help', 'wiki-blocks' ); ?></h3>
+						<div class="wilcoskywb-wiki-blocks-help-text">
+							<div class="wilcoskywb-wiki-blocks-cleanup-help">
+								<h4><?php esc_html_e( 'Cleanup Old Versions:', 'wiki-blocks' ); ?></h4>
+								<p><?php esc_html_e( 'Removes orphaned version numbers that are higher than the current version. This typically happens when suggestions are made but never merged, or when multiple suggestions are created before any are accepted. The current version and all valid historical versions are preserved.', 'wiki-blocks' ); ?></p>
+								
+								<h4><?php esc_html_e( 'Cleanup Orphaned Content:', 'wiki-blocks' ); ?></h4>
+								<p><?php esc_html_e( 'Removes all wiki block content (versions and settings) that is no longer associated with any existing posts or pages. This includes content from deleted posts, blocks that were never properly associated with posts, and any other orphaned data that cannot be accessed through normal WordPress content.', 'wiki-blocks' ); ?></p>
+								
+								<h4><?php esc_html_e( 'Cleanup Old Activity:', 'wiki-blocks' ); ?></h4>
+								<p><?php esc_html_e( 'Removes old version history to prevent database bloat while preserving recent activity and current versions. Uses configurable retention settings: keeps versions newer than specified days and limits the number of versions per block. Current versions are always preserved.', 'wiki-blocks' ); ?></p>
+								
+								<p><strong><?php esc_html_e( 'Important:', 'wiki-blocks' ); ?></strong> <?php esc_html_e( 'All cleanup operations are irreversible. Always backup your database before running cleanup operations.', 'wiki-blocks' ); ?></p>
+							</div>
+						</div>
 					</div>
 
 					<div class="wilcoskywb-wiki-blocks-admin-widget">
 						<h3><?php esc_html_e( 'Documentation', 'wiki-blocks' ); ?></h3>
 						<p><?php esc_html_e( 'Learn how to use Wiki Blocks effectively.', 'wiki-blocks' ); ?></p>
-						<a href="#" class="button button-secondary"><?php esc_html_e( 'View Documentation', 'wiki-blocks' ); ?></a>
+						<a href="https://wordpress.org/plugins/wiki-blocks" class="button button-secondary" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'View Documentation', 'wiki-blocks' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -470,6 +502,219 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			/* translators: %d: number of deleted versions */
 			'message' => sprintf( esc_html__( 'Cleanup completed. Deleted %d old versions.', 'wiki-blocks' ), $deleted ),
 			'deleted_count' => $deleted,
+		) );
+	}
+
+	/**
+	 * Cleanup orphaned wiki content not associated with any existing posts
+	 *
+	 * @since 1.1.0
+	 */
+	public function cleanup_orphaned_content() {
+		// Verify nonce
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_admin' ) ) {
+			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
+		}
+
+		// Check permissions
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Insufficient permissions.', 'wiki-blocks' ) ) );
+		}
+
+		global $wpdb;
+		$versions_table = $wpdb->prefix . 'wilcoskywb_wiki_block_versions';
+		$settings_table = $wpdb->prefix . 'wilcoskywb_wiki_block_settings';
+		$posts_table = $wpdb->posts;
+
+		// Find all block IDs that have post_id references to non-existent posts
+		$orphaned_blocks = $wpdb->get_col(
+			"SELECT DISTINCT v.block_id 
+			FROM $versions_table v
+			LEFT JOIN $posts_table p ON v.post_id = p.ID
+			WHERE v.post_id IS NOT NULL AND p.ID IS NULL"
+		);
+
+		$deleted_versions = 0;
+		$deleted_settings = 0;
+
+		// Clean up orphaned blocks
+		foreach ( $orphaned_blocks as $block_id ) {
+			// Delete all versions for this orphaned block
+			$versions_deleted = $wpdb->delete(
+				$versions_table,
+				array( 'block_id' => $block_id ),
+				array( '%s' )
+			);
+			$deleted_versions += $versions_deleted;
+
+			// Delete settings for this orphaned block
+			$settings_deleted = $wpdb->delete(
+				$settings_table,
+				array( 'block_id' => $block_id ),
+				array( '%s' )
+			);
+			$deleted_settings += $settings_deleted;
+		}
+
+		// Also find and delete any versions with NULL post_id that might be orphaned
+		// (This catches blocks that were never properly associated with posts)
+		$null_post_versions = $wpdb->get_results(
+			"SELECT DISTINCT block_id FROM $versions_table WHERE post_id IS NULL"
+		);
+
+		foreach ( $null_post_versions as $version ) {
+			// Check if this block_id appears in any existing post content
+			$exists_in_content = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(*) FROM $posts_table 
+					WHERE post_content LIKE %s AND post_status IN ('publish', 'draft', 'private', 'pending')",
+					'%' . $version->block_id . '%'
+				)
+			);
+
+			if ( ! $exists_in_content ) {
+				// Block not found in any post content, safe to delete
+				$versions_deleted = $wpdb->delete(
+					$versions_table,
+					array( 'block_id' => $version->block_id ),
+					array( '%s' )
+				);
+				$deleted_versions += $versions_deleted;
+
+				$settings_deleted = $wpdb->delete(
+					$settings_table,
+					array( 'block_id' => $version->block_id ),
+					array( '%s' )
+				);
+				$deleted_settings += $settings_deleted;
+			}
+		}
+
+		// Clear cache
+		wp_cache_delete( 'wilcoskywb_admin_stats', 'wiki-blocks' );
+
+		wp_send_json_success( array(
+			'message' => sprintf(
+				/* translators: %1$d: number of deleted versions, %2$d: number of deleted settings */
+				esc_html__( 'Orphaned content cleanup completed. Deleted %1$d versions and %2$d settings from orphaned blocks.', 'wiki-blocks' ),
+				$deleted_versions,
+				$deleted_settings
+			),
+			'deleted_versions' => $deleted_versions,
+			'deleted_settings' => $deleted_settings,
+		) );
+	}
+
+	/**
+	 * Cleanup old activity data to prevent database bloat
+	 *
+	 * @since 1.1.0
+	 */
+	public function cleanup_old_activity() {
+		// Verify nonce
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'wilcoskywb_wiki_blocks_admin' ) ) {
+			wp_die( esc_html__( 'Security check failed.', 'wiki-blocks' ) );
+		}
+
+		// Check permissions
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Insufficient permissions.', 'wiki-blocks' ) ) );
+		}
+
+		global $wpdb;
+		$versions_table = $wpdb->prefix . 'wilcoskywb_wiki_block_versions';
+
+		// Get cleanup settings
+		$keep_days = get_option( 'wilcoskywb_wiki_blocks_activity_retention_days', 90 );
+		$keep_versions_per_block = get_option( 'wilcoskywb_wiki_blocks_max_versions_per_block', 50 );
+
+		$deleted_count = 0;
+
+		// Method 1: Delete versions older than X days (but keep current versions)
+		if ( $keep_days > 0 ) {
+			$cutoff_date = date( 'Y-m-d H:i:s', strtotime( "-{$keep_days} days" ) );
+			
+			$deleted_by_date = $wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM $versions_table 
+					WHERE created_at < %s AND is_current = 0",
+					$cutoff_date
+				)
+			);
+			
+			$deleted_count += $deleted_by_date;
+		}
+
+		// Method 2: For each block, keep only the most recent X versions (but always keep current)
+		if ( $keep_versions_per_block > 0 ) {
+			// Get all blocks
+			$blocks = $wpdb->get_col(
+				"SELECT DISTINCT block_id FROM $versions_table"
+			);
+
+			foreach ( $blocks as $block_id ) {
+				// Get versions for this block, ordered by version number DESC
+				$versions = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT id, version_number, is_current 
+						FROM $versions_table 
+						WHERE block_id = %s 
+						ORDER BY version_number DESC",
+						$block_id
+					)
+				);
+
+				// Find current version
+				$current_version = null;
+				foreach ( $versions as $version ) {
+					if ( $version->is_current ) {
+						$current_version = $version;
+						break;
+					}
+				}
+
+				// Keep current version + X most recent versions
+				$versions_to_keep = array();
+				
+				// Always keep current version
+				if ( $current_version ) {
+					$versions_to_keep[] = $current_version->id;
+				}
+
+				// Keep most recent versions (excluding current if already counted)
+				$count = 0;
+				foreach ( $versions as $version ) {
+					if ( ! $version->is_current && $count < $keep_versions_per_block ) {
+						$versions_to_keep[] = $version->id;
+						$count++;
+					}
+				}
+
+				// Delete versions not in the keep list
+				if ( ! empty( $versions_to_keep ) ) {
+					$placeholders = implode( ',', array_fill( 0, count( $versions_to_keep ), '%d' ) );
+					$deleted_for_block = $wpdb->query(
+						$wpdb->prepare(
+							"DELETE FROM $versions_table 
+							WHERE block_id = %s AND id NOT IN ($placeholders)",
+							array_merge( array( $block_id ), $versions_to_keep )
+						)
+					);
+					$deleted_count += $deleted_for_block;
+				}
+			}
+		}
+
+		// Clear cache
+		wp_cache_delete( 'wilcoskywb_admin_stats', 'wiki-blocks' );
+
+		wp_send_json_success( array(
+			'message' => sprintf(
+				/* translators: %d: number of deleted versions */
+				esc_html__( 'Old activity cleanup completed. Deleted %d old versions.', 'wiki-blocks' ),
+				$deleted_count
+			),
+			'deleted_count' => $deleted_count,
 		) );
 	}
 

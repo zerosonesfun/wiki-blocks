@@ -48,6 +48,21 @@
 }
 
 /* Block Toolbar */
+.components-toolbar__control.components-button[aria-label="Add Image from Media Library"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.components-toolbar__control.components-button[aria-label="Add Image from Media Library"] svg {
+    vertical-align: middle !important;
+}
+
+.dashicon.dashicons.dashicons-format-image {
+    position: relative;
+    top: 5px;
+    padding-left: 10px;
+}
 .wp-block-wilcoskywb-wiki-block .block-editor-block-toolbar {
     position: absolute;
     top: -40px;
@@ -331,4 +346,68 @@
     .wp-block-wilcoskywb-wiki-block .components-spinner {
         animation: none;
     }
+}
+
+/* Image Management */
+.wilcoskywb-wiki-images {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.wilcoskywb-wiki-images img {
+    max-width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.wilcoskywb-wiki-images .components-button.is-destructive {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0;
+    background: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: #fff !important;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 1;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box;
+}
+
+.wilcoskywb-wiki-images .components-button.is-destructive:hover {
+    background: #a00 !important;
+    border-color: #a00 !important;
+    color: #fff !important;
+}
+
+/* Wiki Image in Content */
+.wilcoskywb-wiki-image {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.wilcoskywb-wiki-image-caption {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
 } 

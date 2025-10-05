@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wiki Blocks
  * Description: Add wiki functionality to Gutenberg blocks with version control and user collaboration features.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Billy Wilcosky
  * Author URI: https://wilcosky.com
  * License: GPL v2 or later
@@ -15,7 +15,7 @@
  *
  * @package WikiBlocks
  * @author Billy Wilcosky
- * @version 1.0.1
+ * @version 1.1.0
  */
 
 // Prevent direct access
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-define( 'WILCOSKYWB_WIKI_BLOCKS_VERSION', '1.0.1' );
+define( 'WILCOSKYWB_WIKI_BLOCKS_VERSION', '1.1.0' );
 define( 'WILCOSKYWB_WIKI_BLOCKS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WILCOSKYWB_WIKI_BLOCKS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WILCOSKYWB_WIKI_BLOCKS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -137,6 +137,9 @@ final class Wilcoskywb_Wiki_Blocks {
 			'wilcoskywb_wiki_blocks_suggest_permissions' => array( 'administrator', 'editor', 'author', 'contributor', 'subscriber' ),
 			'wilcoskywb_wiki_blocks_require_login_browse' => false,
 			'wilcoskywb_wiki_blocks_cleanup_on_uninstall' => true,
+			'wilcoskywb_wiki_blocks_cleanup_on_delete' => true,
+			'wilcoskywb_wiki_blocks_activity_retention_days' => 90,
+			'wilcoskywb_wiki_blocks_max_versions_per_block' => 50,
 		);
 
 		foreach ( $default_options as $option_name => $default_value ) {

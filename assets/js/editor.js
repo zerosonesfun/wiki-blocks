@@ -11,10 +11,124 @@
     // Import WordPress dependencies
     const { registerBlockType } = wp.blocks;
     const { createElement: el, Fragment } = wp.element;
-    const { RichText, InspectorControls, ColorPalette, PanelColorSettings, BlockControls, AlignmentToolbar } = wp.blockEditor;
-    const { PanelBody, TextControl, CheckboxControl, SelectControl, Button, Notice } = wp.components;
+    const { RichText, InspectorControls, ColorPalette, PanelColorSettings, BlockControls, AlignmentToolbar, MediaUpload, MediaUploadCheck } = wp.blockEditor;
+    const { PanelBody, TextControl, CheckboxControl, SelectControl, Button, Notice, IconButton } = wp.components;
     const { __ } = wp.i18n;
     const { useSelect, useDispatch } = wp.data;
+
+    // Function to extract images from content
+    function extractImagesFromContent(content) {
+        const images = [];
+        
+        // Validate content before parsing
+        if (!content || typeof content !== 'string') {
+            return images;
+        }
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+        
+        // Check for parsing errors
+        const parserError = doc.querySelector('parsererror');
+        if (parserError) {
+            console.warn('Error parsing content for image extraction:', parserError.textContent);
+            return images;
+        }
+        
+        const imageDivs = doc.querySelectorAll('.wilcoskywb-wiki-image');
+        
+        imageDivs.forEach((div, index) => {
+            const img = div.querySelector('img');
+            const caption = div.querySelector('.wilcoskywb-wiki-image-caption');
+            
+            if (img) {
+                // Generate a consistent ID based on the image URL to avoid duplicates
+                const consistentId = 'temp_' + btoa(img.src).replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
+                
+                images.push({
+                    id: consistentId,
+                    url: img.src,
+                    alt: img.alt || '',
+                    caption: caption ? caption.textContent : '',
+                });
+            }
+        });
+        
+        return images;
+    }
+
+    // Function to fetch current version content from database
+    function fetchCurrentVersionContent(blockId, setAttributes) {
+        if (!blockId) return;
+
+        const formData = new FormData();
+        formData.append('action', 'wilcoskywb_wiki_blocks_get_current_version');
+        formData.append('block_id', blockId);
+        formData.append('nonce', wilcoskywbWikiBlocks.nonces.getCurrentVersion);
+
+        fetch(wilcoskywbWikiBlocks.ajaxUrl, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.data.content) {
+                const content = data.data.content;
+                const images = extractImagesFromContent(content);
+                
+                // Update both content and images attributes
+                setAttributes({ 
+                    content: content,
+                    images: images
+                });
+            }
+        })
+        .catch(error => {
+            console.log('Error fetching current version:', error);
+        });
+    }
+
+    // Function to add image to content
+    function addImageToContent(media, setAttributes, content, images) {
+        const newImage = {
+            id: media.id,
+            url: media.url,
+            alt: media.alt || '',
+            caption: media.caption || '',
+        };
+        
+        const newImages = [...(images || []), newImage];
+        setAttributes({ images: newImages });
+        
+        // Add image HTML to content - use simple, clean HTML that won't be corrupted
+        // Escape HTML attributes to prevent XSS
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+        
+        const imageHtml = `<div class="wilcoskywb-wiki-image">
+<img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" />
+${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.caption)}</p>` : ''}
+</div>`;
+        setAttributes({ content: content + imageHtml });
+    }
+
+    // Function to remove image
+    function removeImage(imageId, setAttributes, images, content) {
+        const newImages = images.filter(img => img.id !== imageId);
+        setAttributes({ images: newImages });
+        
+        // Find the image to remove
+        const imageToRemove = images.find(img => img.id === imageId);
+        if (imageToRemove) {
+            // Remove the entire image div from content
+            const imageHtml = new RegExp(`<div class="wilcoskywb-wiki-image">[\\s\\S]*?<img src="${imageToRemove.url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>[\\s\\S]*?</div>`, 'g');
+            const newContent = content.replace(imageHtml, '');
+            setAttributes({ content: newContent });
+        }
+    }
 
     // Register the Wiki Block
     registerBlockType('wilcoskywb/wiki-block', {
@@ -42,6 +156,10 @@
                 type: 'string',
                 default: '',
             },
+            images: {
+                type: 'array',
+                default: [],
+            },
             blockId: {
                 type: 'string',
                 default: '',
@@ -66,12 +184,37 @@
 
         edit: function(props) {
             const { attributes, setAttributes, clientId } = props;
-            const { content, blockId, align, backgroundColor, textColor, fontSize } = attributes;
+            const { content, images, blockId, align, backgroundColor, textColor, fontSize } = attributes;
+
+            // Track if we've fetched the current version to avoid infinite loops
+            const hasFetchedCurrentVersion = React.useRef(false);
+            
+            // Track if we've extracted images for the current content to prevent duplicates
+            const lastExtractedContent = React.useRef('');
 
             // Generate block ID if not set
             if (!blockId) {
                 setAttributes({ blockId: 'wiki-block-' + clientId });
             }
+
+            // Fetch current version content when block loads (only for existing blocks with a persistent blockId)
+            React.useEffect(() => {
+                if (blockId && blockId.startsWith('wiki-block-') && !hasFetchedCurrentVersion.current) {
+                    hasFetchedCurrentVersion.current = true;
+                    fetchCurrentVersionContent(blockId, setAttributes);
+                }
+            }, [blockId]);
+
+            // Extract images from content if images array is empty but content has images
+            React.useEffect(() => {
+                if (content && (!images || images.length === 0) && content !== lastExtractedContent.current) {
+                    const extractedImages = extractImagesFromContent(content);
+                    if (extractedImages.length > 0) {
+                        setAttributes({ images: extractedImages });
+                        lastExtractedContent.current = content;
+                    }
+                }
+            }, [content, images]);
 
             // Block style object
             const blockStyle = {};
@@ -118,6 +261,23 @@
                     })
                 ),
 
+                // Block Controls (Toolbar)
+                el(BlockControls, {},
+                    el(MediaUploadCheck, {},
+                        el(MediaUpload, {
+                            onSelect: (media) => addImageToContent(media, setAttributes, content, images || []),
+                            allowedTypes: ['image'],
+                            value: images ? images.map(img => img.id) : [],
+                            render: ({ open }) => el(IconButton, {
+                                onClick: open,
+                                icon: 'format-image',
+                                label: __('Add Image from Media Library', 'wiki-blocks'),
+                                className: 'components-button components-toolbar__control'
+                            })
+                        })
+                    )
+                ),
+
                 // Block Content
                 el('div', {
                     className: 'wilcoskywb-wiki-block-editor',
@@ -131,6 +291,42 @@
                         placeholder: wilcoskywbWikiBlocks.strings.contentPlaceholder,
                         allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/strikethrough'],
                     }),
+                    
+                    // Display current images
+                    images && images.length > 0 && el('div', {
+                        className: 'wilcoskywb-wiki-images',
+                        style: { marginTop: '15px' }
+                    }, images.map(image => el('div', {
+                        key: image.id,
+                        style: { 
+                            display: 'inline-block', 
+                            margin: '5px',
+                            position: 'relative'
+                        }
+                    }, [
+                        el('img', {
+                            src: image.url,
+                            alt: image.alt,
+                            style: { 
+                                maxWidth: '150px', 
+                                height: 'auto',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px'
+                            }
+                        }),
+                        el(Button, {
+                            onClick: () => removeImage(image.id, setAttributes, images, content),
+                            className: 'components-button is-destructive is-small',
+                            style: { 
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px',
+                                minWidth: '20px',
+                                height: '20px',
+                                padding: '0'
+                            }
+                        }, '×')
+                    ]))),
                     el('div', {
                         className: 'wilcoskywb-wiki-editor-notice',
                     },
@@ -151,7 +347,7 @@
 
         save: function(props) {
             const { attributes } = props;
-            const { content, blockId, align, backgroundColor, textColor, fontSize } = attributes;
+            const { content, images, blockId, align, backgroundColor, textColor, fontSize } = attributes;
 
             // Build CSS classes
             const classes = ['wp-block-wilcoskywb-wiki-block', 'wilcoskywb-wiki-block'];

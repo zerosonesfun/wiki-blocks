@@ -5,7 +5,7 @@
 **Requires at least:** 5.0  
 **Tested up to:** 6.8  
 **Requires PHP:** 8.0  
-**Stable tag:** 1.0.0  
+**Stable tag:** 1.1.0  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,13 +56,13 @@ Wiki Blocks lets you add collaborative wiki content with full version control. U
 
 ## Frequently Asked Questions
 
-### Can I use this with existing content?
+### Can I turn any block into a wiki and use any type of content?
 
-Yes! You can convert existing content by adding the Wiki Block and setting the initial content.
+Version 1 is focused on using the actual wiki block only (search for /wiki). So no, you cannot turn any block into a wiki. Also, for now only basic formatting and image uploading is available. This is enough for most blog articles or text-heavy website sections.
 
 ### What happens if I disable the plugin?
 
-Your content remains intact. The plugin only enhances blocks with wiki functionality - your original content is preserved.
+Your content remains intact. There are clean up options in the settings. There is also the ability to clean up everything on uninstall if you would like.
 
 ### Can I control who can make changes?
 

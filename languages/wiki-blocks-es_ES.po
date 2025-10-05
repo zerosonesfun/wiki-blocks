@@ -192,6 +192,45 @@ msgstr "Limpiar versiones antiguas de bloques wiki para liberar espacio en la ba
 msgid "Cleanup Old Versions"
 msgstr "Limpiar Versiones Antiguas"
 
+msgid "Remove wiki content that is no longer associated with any existing posts or pages."
+msgstr "Eliminar contenido wiki que ya no está asociado con ningún post o página existente."
+
+msgid "Cleanup Orphaned Content"
+msgstr "Limpiar Contenido Huérfano"
+
+msgid "Maintenance Help"
+msgstr "Ayuda de Mantenimiento"
+
+msgid "Cleanup Old Versions:"
+msgstr "Limpiar Versiones Antiguas:"
+
+msgid "Removes orphaned version numbers that are higher than the current version. This typically happens when suggestions are made but never merged, or when multiple suggestions are created before any are accepted. The current version and all valid historical versions are preserved."
+msgstr "Elimina números de versión huérfanos que son más altos que la versión actual. Esto típicamente ocurre cuando se hacen sugerencias pero nunca se fusionan, o cuando se crean múltiples sugerencias antes de que alguna sea aceptada. La versión actual y todas las versiones históricas válidas se conservan."
+
+msgid "Cleanup Orphaned Content:"
+msgstr "Limpiar Contenido Huérfano:"
+
+msgid "Removes all wiki block content (versions and settings) that is no longer associated with any existing posts or pages. This includes content from deleted posts, blocks that were never properly associated with posts, and any other orphaned data that cannot be accessed through normal WordPress content."
+msgstr "Elimina todo el contenido de bloques wiki (versiones y configuraciones) que ya no está asociado con ningún post o página existente. Esto incluye contenido de posts eliminados, bloques que nunca fueron asociados correctamente con posts, y cualquier otro dato huérfano que no puede ser accedido a través del contenido normal de WordPress."
+
+msgid "Important:"
+msgstr "Importante:"
+
+msgid "All cleanup operations are irreversible. Always backup your database before running cleanup operations."
+msgstr "Todas las operaciones de limpieza son irreversibles. Siempre haga una copia de seguridad de su base de datos antes de ejecutar operaciones de limpieza."
+
+msgid "Remove old activity data to prevent database bloat while preserving recent versions and current content."
+msgstr "Eliminar datos de actividad antiguos para prevenir la hinchazón de la base de datos mientras se preservan las versiones recientes y el contenido actual."
+
+msgid "Cleanup Old Activity"
+msgstr "Limpiar Actividad Antigua"
+
+msgid "Cleanup Old Activity:"
+msgstr "Limpiar Actividad Antigua:"
+
+msgid "Removes old version history to prevent database bloat while preserving recent activity and current versions. Uses configurable retention settings: keeps versions newer than specified days and limits the number of versions per block. Current versions are always preserved."
+msgstr "Elimina el historial de versiones antiguas para prevenir la hinchazón de la base de datos mientras preserva la actividad reciente y las versiones actuales. Utiliza configuraciones de retención configurables: mantiene versiones más nuevas que los días especificados y limita el número de versiones por bloque. Las versiones actuales siempre se preservan."
+
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -311,6 +350,12 @@ msgstr "No hay actividad reciente."
 
 msgid "Are you sure you want to delete all old versions? This action cannot be undone."
 msgstr "¿Estás seguro de que quieres eliminar todas las versiones antiguas? Esta acción no se puede deshacer."
+
+msgid "Are you sure you want to delete all wiki content that is no longer associated with any posts? This action cannot be undone."
+msgstr "¿Estás seguro de que quieres eliminar todo el contenido wiki que ya no está asociado con ningún post? Esta acción no se puede deshacer."
+
+msgid "Are you sure you want to delete old activity data? This will remove version history older than your retention settings. Current versions will be preserved. This action cannot be undone."
+msgstr "¿Estás seguro de que quieres eliminar datos de actividad antiguos? Esto eliminará el historial de versiones más antiguo que tus configuraciones de retención. Las versiones actuales serán preservadas. Esta acción no se puede deshacer."
 
 msgid "Cleanup completed successfully!"
 msgstr "¡Limpieza completada exitosamente!"

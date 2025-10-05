@@ -192,6 +192,45 @@ msgstr "Nettoyer les anciennes versions de blocs wiki pour libérer de l'espace 
 msgid "Cleanup Old Versions"
 msgstr "Nettoyer les Anciennes Versions"
 
+msgid "Remove wiki content that is no longer associated with any existing posts or pages."
+msgstr "Supprimer le contenu wiki qui n'est plus associé à aucun article ou page existant."
+
+msgid "Cleanup Orphaned Content"
+msgstr "Nettoyer le contenu orphelin"
+
+msgid "Maintenance Help"
+msgstr "Aide à la maintenance"
+
+msgid "Cleanup Old Versions:"
+msgstr "Nettoyer les anciennes versions :"
+
+msgid "Removes orphaned version numbers that are higher than the current version. This typically happens when suggestions are made but never merged, or when multiple suggestions are created before any are accepted. The current version and all valid historical versions are preserved."
+msgstr "Supprime les numéros de version orphelins qui sont plus élevés que la version actuelle. Cela se produit généralement lorsque des suggestions sont faites mais jamais fusionnées, ou lorsque plusieurs suggestions sont créées avant qu'aucune ne soit acceptée. La version actuelle et toutes les versions historiques valides sont préservées."
+
+msgid "Cleanup Orphaned Content:"
+msgstr "Nettoyer le contenu orphelin :"
+
+msgid "Removes all wiki block content (versions and settings) that is no longer associated with any existing posts or pages. This includes content from deleted posts, blocks that were never properly associated with posts, and any other orphaned data that cannot be accessed through normal WordPress content."
+msgstr "Supprime tout le contenu de blocs wiki (versions et paramètres) qui n'est plus associé à aucun article ou page existant. Cela inclut le contenu d'articles supprimés, des blocs qui n'ont jamais été correctement associés à des articles, et toute autre donnée orpheline qui ne peut pas être accessible via le contenu WordPress normal."
+
+msgid "Important:"
+msgstr "Important :"
+
+msgid "All cleanup operations are irreversible. Always backup your database before running cleanup operations."
+msgstr "Toutes les opérations de nettoyage sont irréversibles. Sauvegardez toujours votre base de données avant d'exécuter des opérations de nettoyage."
+
+msgid "Remove old activity data to prevent database bloat while preserving recent versions and current content."
+msgstr "Supprimer les anciennes données d'activité pour éviter le gonflement de la base de données tout en préservant les versions récentes et le contenu actuel."
+
+msgid "Cleanup Old Activity"
+msgstr "Nettoyer l'Ancienne Activité"
+
+msgid "Cleanup Old Activity:"
+msgstr "Nettoyer l'Ancienne Activité :"
+
+msgid "Removes old version history to prevent database bloat while preserving recent activity and current versions. Uses configurable retention settings: keeps versions newer than specified days and limits the number of versions per block. Current versions are always preserved."
+msgstr "Supprime l'historique des anciennes versions pour éviter le gonflement de la base de données tout en préservant l'activité récente et les versions actuelles. Utilise des paramètres de rétention configurables : garde les versions plus récentes que les jours spécifiés et limite le nombre de versions par bloc. Les versions actuelles sont toujours préservées."
+
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -311,6 +350,12 @@ msgstr "Aucune activité récente."
 
 msgid "Are you sure you want to delete all old versions? This action cannot be undone."
 msgstr "Êtes-vous sûr de vouloir supprimer toutes les anciennes versions ? Cette action ne peut pas être annulée."
+
+msgid "Are you sure you want to delete all wiki content that is no longer associated with any posts? This action cannot be undone."
+msgstr "Êtes-vous sûr de vouloir supprimer tout le contenu wiki qui n'est plus associé à aucun article ? Cette action ne peut pas être annulée."
+
+msgid "Are you sure you want to delete old activity data? This will remove version history older than your retention settings. Current versions will be preserved. This action cannot be undone."
+msgstr "Êtes-vous sûr de vouloir supprimer les anciennes données d'activité ? Cela supprimera l'historique des versions plus ancien que vos paramètres de rétention. Les versions actuelles seront préservées. Cette action ne peut pas être annulée."
 
 msgid "Cleanup completed successfully!"
 msgstr "Nettoyage terminé avec succès !"

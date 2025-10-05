@@ -647,4 +647,558 @@
         background-color: white;
         page-break-inside: avoid;
     }
+}
+
+/* Responsive Images in Wiki Blocks */
+.wilcoskywb-wiki-content .wilcoskywb-wiki-image,
+.wilcoskywb-wiki-version-content .wilcoskywb-wiki-image,
+.wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image {
+    margin: 15px 0;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.wilcoskywb-wiki-content .wilcoskywb-wiki-image img,
+.wilcoskywb-wiki-version-content .wilcoskywb-wiki-image img,
+.wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
+
+.wilcoskywb-wiki-content .wilcoskywb-wiki-image-caption,
+.wilcoskywb-wiki-version-content .wilcoskywb-wiki-image-caption,
+.wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image-caption {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Responsive image sizing for different screen sizes */
+@media (max-width: 1200px) {
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image img {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image img {
+        max-width: 100%;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image {
+        margin: 10px 0;
+    }
+    
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image-caption,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image-caption,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image-caption {
+        font-size: 0.85em;
+        margin-top: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image img {
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        border: 1px solid #eee;
+    }
+    
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image {
+        margin: 8px 0;
+    }
+    
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image-caption,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image-caption,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image-caption {
+        font-size: 0.8em;
+        margin-top: 4px;
+        padding: 0 5px;
+    }
+}
+
+/* Handle images in version history specifically */
+.wilcoskywb-wiki-versions .wilcoskywb-wiki-image {
+    margin: 10px 0;
+}
+
+.wilcoskywb-wiki-versions .wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Ensure images don't break layout in narrow containers */
+.wilcoskywb-wiki-modal-content .wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Handle legacy img tags that might exist in older content */
+.wilcoskywb-wiki-content img,
+.wilcoskywb-wiki-version-content img,
+.wilcoskywb-wiki-version-content-excerpt img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure images in modal versions are responsive */
+.wilcoskywb-wiki-modal-body .wilcoskywb-wiki-image {
+    margin: 10px 0;
+}
+
+.wilcoskywb-wiki-modal-body .wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* High contrast mode for images */
+@media (prefers-contrast: high) {
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image img,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image img {
+        border: 2px solid currentColor;
+        box-shadow: none;
+    }
+}
+
+/* Reduced motion for images */
+@media (prefers-reduced-motion: reduce) {
+    .wilcoskywb-wiki-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content .wilcoskywb-wiki-image,
+    .wilcoskywb-wiki-version-content-excerpt .wilcoskywb-wiki-image {
+        transition: none;
+    }
+}
+
+/* WYSIWYG Editor Styles */
+.wilcoskywb-wysiwyg-editor {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background: white;
+    overflow: hidden;
+}
+
+.wilcoskywb-wysiwyg-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    flex-wrap: wrap;
+}
+
+.wilcoskywb-wysiwyg-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #495057;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.wilcoskywb-wysiwyg-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.wilcoskywb-wysiwyg-btn:active,
+.wilcoskywb-wysiwyg-btn.active {
+    background: #0073aa;
+    color: white;
+    border-color: #0073aa;
+}
+
+.wilcoskywb-wysiwyg-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.wilcoskywb-wysiwyg-separator {
+    width: 1px;
+    height: 20px;
+    background: #dee2e6;
+    margin: 0 4px;
+}
+
+.wilcoskywb-wysiwyg-content {
+    min-height: 200px;
+    padding: 12px;
+    line-height: 1.6;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.wilcoskywb-wysiwyg-content:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* WYSIWYG Toolbar Accessibility */
+.wilcoskywb-wysiwyg-btn:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    background: #e9ecef;
+    border-color: #0073aa;
+}
+
+.wilcoskywb-wysiwyg-btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.wilcoskywb-wysiwyg-btn:focus-visible {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .wilcoskywb-wysiwyg-btn:focus {
+        outline: 3px solid;
+        outline-offset: 3px;
+    }
+    
+    .wilcoskywb-wysiwyg-content:focus {
+        outline: 3px solid;
+        outline-offset: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .wilcoskywb-wysiwyg-btn {
+        transition: none;
+    }
+}
+
+.wilcoskywb-wysiwyg-content p {
+    margin: 0 0 12px 0;
+}
+
+.wilcoskywb-wysiwyg-content p:last-child {
+    margin-bottom: 0;
+}
+
+.wilcoskywb-wysiwyg-content ul,
+.wilcoskywb-wysiwyg-content ol {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+.wilcoskywb-wysiwyg-content li {
+    margin: 4px 0;
+}
+
+.wilcoskywb-wysiwyg-content a {
+    color: #0073aa;
+    text-decoration: underline;
+}
+
+.wilcoskywb-wysiwyg-content a:hover {
+    color: #005a87;
+}
+
+.wilcoskywb-wysiwyg-content strong {
+    font-weight: bold;
+}
+
+.wilcoskywb-wysiwyg-content em {
+    font-style: italic;
+}
+
+.wilcoskywb-wysiwyg-content u {
+    text-decoration: underline;
+}
+
+/* WYSIWYG Images */
+.wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto 8px auto;
+}
+
+.wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image-caption {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Responsive WYSIWYG */
+@media (max-width: 768px) {
+    .wilcoskywb-wysiwyg-toolbar {
+        padding: 6px 8px;
+        gap: 1px;
+    }
+    
+    .wilcoskywb-wysiwyg-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .wilcoskywb-wysiwyg-content {
+        padding: 8px;
+        min-height: 150px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image {
+        margin: 10px 0;
+        padding: 8px;
+    }
+    
+    .wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image img {
+        border-radius: 2px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (max-width: 480px) {
+    .wilcoskywb-wysiwyg-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .wilcoskywb-wysiwyg-content {
+        min-height: 120px;
+        max-height: 300px;
+    }
+    
+    .wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image {
+        margin: 8px 0;
+        padding: 6px;
+        border-width: 1px;
+    }
+    
+    .wilcoskywb-wysiwyg-content .wilcoskywb-wiki-image img {
+        border-radius: 0;
+        box-shadow: none;
+        border: 1px solid #eee;
+    }
+}
+
+/* Link Modal Styles */
+.wilcoskywb-link-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wilcoskywb-link-modal {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.wilcoskywb-link-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.wilcoskywb-link-modal-header h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.wilcoskywb-link-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: color 0.2s ease;
+}
+
+.wilcoskywb-link-modal-close:hover {
+    color: #333;
+    background: #e9ecef;
+}
+
+.wilcoskywb-link-modal-body {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.wilcoskywb-link-form-group {
+    margin-bottom: 15px;
+}
+
+.wilcoskywb-link-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.wilcoskywb-link-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.wilcoskywb-link-form-group input[type="url"],
+.wilcoskywb-link-form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.wilcoskywb-link-form-group input[type="url"]:focus,
+.wilcoskywb-link-form-group input[type="text"]:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+}
+
+.wilcoskywb-link-form-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.wilcoskywb-link-modal-footer {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.wilcoskywb-link-cancel,
+.wilcoskywb-link-insert {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.wilcoskywb-link-cancel {
+    background: #6c757d;
+    color: white;
+}
+
+.wilcoskywb-link-cancel:hover {
+    background: #545b62;
+}
+
+.wilcoskywb-link-insert {
+    background: #0073aa;
+    color: white;
+}
+
+.wilcoskywb-link-insert:hover {
+    background: #005a87;
+}
+
+/* Responsive Link Modal */
+@media (max-width: 768px) {
+    .wilcoskywb-link-modal {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .wilcoskywb-link-modal-header,
+    .wilcoskywb-link-modal-body,
+    .wilcoskywb-link-modal-footer {
+        padding: 15px;
+    }
+    
+    .wilcoskywb-link-modal-footer {
+        flex-direction: column;
+    }
+    
+    .wilcoskywb-link-cancel,
+    .wilcoskywb-link-insert {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Ensure WordPress media library appears above wiki blocks modals */
+.media-modal {
+    z-index: 10000000 !important;
+}
+
+.media-modal-backdrop {
+    z-index: 9999999 !important;
+}
+
+.media-frame {
+    z-index: 10000001 !important;
 } 

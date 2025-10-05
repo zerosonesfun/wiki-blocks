@@ -54,6 +54,12 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		
 		// Enhance wiki blocks on frontend with controls and modals
 		add_filter( 'the_content', array( $this, 'enhance_wiki_blocks' ) );
+		
+		// Hook into post save to update wiki block database when edited in backend
+		add_action( 'save_post', array( $this, 'handle_post_save' ), 10, 2 );
+		
+		// Hook into post deletion to clean up wiki block data
+		add_action( 'before_delete_post', array( $this, 'cleanup_post_wiki_blocks' ) );
 	}
 
 	/**
@@ -127,6 +133,7 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			'nonces' => array(
 				'getSettings' => wp_create_nonce( 'wilcoskywb_wiki_blocks_get_settings' ),
 				'saveSettings' => wp_create_nonce( 'wilcoskywb_wiki_blocks_save_settings' ),
+				'getCurrentVersion' => wp_create_nonce( 'wilcoskywb_wiki_blocks_get_current_version' ),
 			),
 				'roles' => Wilcoskywb_Wiki_Blocks_Permissions::get_available_roles_for_editor(),
 				'strings' => array(
@@ -447,5 +454,136 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Handle post save to update wiki block database when edited in backend
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
+	 */
+	public function handle_post_save( $post_id, $post ) {
+		// Skip if this is an autosave or revision
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// Skip if user doesn't have permission to edit this post
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		// Parse blocks from post content
+		$blocks = parse_blocks( $post->post_content );
+
+		// Process each wiki block
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] === 'wilcoskywb/wiki-block' ) {
+				$this->update_wiki_block_from_save( $block, $post_id );
+			}
+		}
+	}
+
+	/**
+	 * Update wiki block database when block is saved from backend editor
+	 *
+	 * @param array $block   Block data.
+	 * @param int   $post_id Post ID.
+	 */
+	private function update_wiki_block_from_save( $block, $post_id ) {
+		$attributes = $block['attrs'] ?? array();
+
+		// Extract block ID
+		$block_id = $attributes['blockId'] ?? '';
+		if ( empty( $block_id ) ) {
+			return; // Skip blocks without proper ID
+		}
+
+		// Get content from block attributes (this is what the editor saves)
+		$content = $attributes['content'] ?? '';
+		if ( empty( trim( $content ) ) ) {
+			return; // Skip empty blocks
+		}
+
+		// Get current user ID
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return;
+		}
+
+		// Get current version from database
+		$current_version = Wilcoskywb_Wiki_Blocks_Database::get_current_version( $block_id );
+
+		// Only update if content has actually changed
+		if ( $current_version && $current_version->content === $content ) {
+			return; // No change, skip update
+		}
+
+		// Create a new version with the updated content
+		$change_summary = __( 'Edited in backend editor', 'wiki-blocks' );
+		$version_id = Wilcoskywb_Wiki_Blocks_Database::insert_version( 
+			$block_id, 
+			$content, 
+			$user_id, 
+			$change_summary, 
+			$post_id 
+		);
+
+		// If this created a new version, make it the current version
+		if ( $version_id && $current_version ) {
+			Wilcoskywb_Wiki_Blocks_Database::merge_version( $version_id );
+		}
+	}
+
+	/**
+	 * Clean up wiki block data when a post is deleted
+	 *
+	 * @since 1.1.0
+	 * @param int $post_id The post ID being deleted.
+	 */
+	public function cleanup_post_wiki_blocks( $post_id ) {
+		// Check if cleanup is enabled
+		$cleanup_on_delete = get_option( 'wilcoskywb_wiki_blocks_cleanup_on_delete', true );
+		
+		if ( ! $cleanup_on_delete ) {
+			return;
+		}
+
+		// Get all wiki block versions associated with this post
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wilcoskywb_wiki_block_versions';
+		
+		// Find all block IDs associated with this post
+		$block_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT block_id FROM $table_name WHERE post_id = %d",
+				$post_id
+			)
+		);
+
+		// Delete all versions for these blocks
+		foreach ( $block_ids as $block_id ) {
+			// Delete all versions for this block
+			$wpdb->delete(
+				$table_name,
+				array( 'block_id' => $block_id ),
+				array( '%s' )
+			);
+
+			// Delete block settings
+			$settings_table = $wpdb->prefix . 'wilcoskywb_wiki_block_settings';
+			$wpdb->delete(
+				$settings_table,
+				array( 'block_id' => $block_id ),
+				array( '%s' )
+			);
+		}
+
+		// Also delete any versions that might be associated with this post directly
+		$wpdb->delete(
+			$table_name,
+			array( 'post_id' => $post_id ),
+			array( '%d' )
+		);
 	}
 } 

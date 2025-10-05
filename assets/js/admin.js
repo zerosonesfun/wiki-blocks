@@ -18,6 +18,10 @@
         bindEvents: function() {
             // Bind cleanup button
             $('#wilcoskywb-wiki-blocks-cleanup').on('click', this.handleCleanup.bind(this));
+            // Bind orphaned cleanup button
+            $('#wilcoskywb-wiki-blocks-cleanup-orphaned').on('click', this.handleOrphanedCleanup.bind(this));
+            // Bind activity cleanup button
+            $('#wilcoskywb-wiki-blocks-cleanup-activity').on('click', this.handleActivityCleanup.bind(this));
         },
 
         loadStats: function() {
@@ -121,6 +125,82 @@
                 success: function(response) {
                     if (response.success) {
                         self.showNotice(wilcoskywbWikiBlocksAdmin.strings.cleanupSuccess, 'success');
+                        self.loadStats(); // Reload stats
+                    } else {
+                        self.showNotice(response.data.message, 'error');
+                    }
+                },
+                error: function() {
+                    self.showNotice(wilcoskywbWikiBlocksAdmin.strings.cleanupError, 'error');
+                },
+                complete: function() {
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            });
+        },
+
+        handleOrphanedCleanup: function(e) {
+            e.preventDefault();
+            
+            var self = this;
+            var $btn = $(e.target);
+            var originalText = $btn.text();
+            
+            // Confirmation dialog
+            if (!confirm(wilcoskywbWikiBlocksAdmin.strings.orphanedCleanupConfirm)) {
+                return;
+            }
+            
+            $btn.prop('disabled', true).text(wilcoskywbWikiBlocksAdmin.strings.loading);
+            
+            $.ajax({
+                url: wilcoskywbWikiBlocksAdmin.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'wilcoskywb_wiki_blocks_admin_cleanup_orphaned',
+                    nonce: wilcoskywbWikiBlocksAdmin.nonce
+                },
+                success: function(response) {
+                    if (response.success) {
+                        self.showNotice(response.data.message, 'success');
+                        self.loadStats(); // Reload stats
+                    } else {
+                        self.showNotice(response.data.message, 'error');
+                    }
+                },
+                error: function() {
+                    self.showNotice(wilcoskywbWikiBlocksAdmin.strings.cleanupError, 'error');
+                },
+                complete: function() {
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            });
+        },
+
+        handleActivityCleanup: function(e) {
+            e.preventDefault();
+            
+            var self = this;
+            var $btn = $(e.target);
+            var originalText = $btn.text();
+            
+            // Confirmation dialog
+            if (!confirm(wilcoskywbWikiBlocksAdmin.strings.activityCleanupConfirm)) {
+                return;
+            }
+            
+            $btn.prop('disabled', true).text(wilcoskywbWikiBlocksAdmin.strings.loading);
+            
+            $.ajax({
+                url: wilcoskywbWikiBlocksAdmin.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'wilcoskywb_wiki_blocks_admin_cleanup_old_activity',
+                    nonce: wilcoskywbWikiBlocksAdmin.nonce
+                },
+                success: function(response) {
+                    if (response.success) {
+                        self.showNotice(response.data.message, 'success');
                         self.loadStats(); // Reload stats
                     } else {
                         self.showNotice(response.data.message, 'error');

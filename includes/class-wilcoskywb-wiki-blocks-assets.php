@@ -61,10 +61,13 @@ class Wilcoskywb_Wiki_Blocks_Assets {
 			return;
 		}
 
+		// Enqueue WordPress media library for frontend image insertion
+		wp_enqueue_media();
+
 		wp_enqueue_script(
 			'wilcoskywb-wiki-blocks-frontend',
 			self::get_asset_url( 'assets/js/frontend.js' ),
-			array( 'jquery' ),
+			array( 'jquery', 'media-upload', 'thickbox' ),
 			self::get_asset_version( 'assets/js/frontend.js' ),
 			true
 		);

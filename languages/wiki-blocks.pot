@@ -2,7 +2,7 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Wiki Blocks 1.0.0\n"
+"Project-Id-Version: Wiki Blocks 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wilcosky.com\n"
 "POT-Creation-Date: 2024-01-01 00:00+0000\n"
 "MIME-Version: 1.0\n"
@@ -252,6 +252,58 @@ msgstr ""
 msgid "Cleanup Old Versions"
 msgstr ""
 
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:124
+msgid "Remove wiki content that is no longer associated with any existing posts or pages."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:126
+msgid "Cleanup Orphaned Content"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:131
+msgid "Maintenance Help"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:133
+msgid "Cleanup Old Versions:"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:134
+msgid "Removes orphaned version numbers that are higher than the current version. This typically happens when suggestions are made but never merged, or when multiple suggestions are created before any are accepted. The current version and all valid historical versions are preserved."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:137
+msgid "Cleanup Orphaned Content:"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:138
+msgid "Removes all wiki block content (versions and settings) that is no longer associated with any existing posts or pages. This includes content from deleted posts, blocks that were never properly associated with posts, and any other orphaned data that cannot be accessed through normal WordPress content."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:141
+msgid "Important:"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:141
+msgid "All cleanup operations are irreversible. Always backup your database before running cleanup operations."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:261
+msgid "Remove old activity data to prevent database bloat while preserving recent versions and current content."
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:263
+msgid "Cleanup Old Activity"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:277
+msgid "Cleanup Old Activity:"
+msgstr ""
+
+#: includes/class-wilcoskywb-wiki-blocks-admin.php:278
+msgid "Removes old version history to prevent database bloat while preserving recent activity and current versions. Uses configurable retention settings: keeps versions newer than specified days and limits the number of versions per block. Current versions are always preserved."
+msgstr ""
+
 #: includes/class-wilcoskywb-wiki-blocks-admin.php:123
 msgid "Documentation"
 msgstr ""
@@ -414,6 +466,14 @@ msgstr ""
 
 #: assets/js/admin.js:58
 msgid "Are you sure you want to delete all old versions? This action cannot be undone."
+msgstr ""
+
+#: assets/js/admin.js:148
+msgid "Are you sure you want to delete all wiki content that is no longer associated with any posts? This action cannot be undone."
+msgstr ""
+
+#: assets/js/admin.js:188
+msgid "Are you sure you want to delete old activity data? This will remove version history older than your retention settings. Current versions will be preserved. This action cannot be undone."
 msgstr ""
 
 #: assets/js/admin.js:67
