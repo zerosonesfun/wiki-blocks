@@ -18,9 +18,9 @@
         },
 
         bindEvents: function() {
-            // Bind click events to wiki block buttons
-            $(document).on('click', '.wilcoskywb-wiki-suggest-btn', this.handleSuggestClick.bind(this));
-            $(document).on('click', '.wilcoskywb-wiki-browse-btn', this.handleBrowseClick.bind(this));
+            // Bind events to wiki block buttons with future-proof event handling
+            this.bindButtonEvents('.wilcoskywb-wiki-suggest-btn', this.handleSuggestClick.bind(this));
+            this.bindButtonEvents('.wilcoskywb-wiki-browse-btn', this.handleBrowseClick.bind(this));
             
             // Bind modal events
             $(document).on('click', '.wilcoskywb-wiki-modal-close, .wilcoskywb-wiki-modal-overlay', this.closeModal.bind(this));
@@ -38,6 +38,60 @@
                     WikiBlocksFrontend.closeModal();
                 }
             });
+        },
+
+        // Future-proof button event binding
+        bindButtonEvents: function(selector, handler) {
+            var self = this;
+            var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            var hasTriggered = false;
+            
+            // Prevent multiple triggers for the same interaction
+            var preventMultipleTriggers = function(e) {
+                if (hasTriggered) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                hasTriggered = true;
+                
+                // Reset flag after a short delay
+                setTimeout(function() {
+                    hasTriggered = false;
+                }, 100);
+                
+                return true;
+            };
+            
+            if (isTouchDevice) {
+                // Touch devices: use touchstart as primary, click as fallback
+                $(document).on('touchstart', selector, function(e) {
+                    if (preventMultipleTriggers(e)) {
+                        handler(e);
+                    }
+                });
+                
+                // Fallback click for touch devices (in case touchstart doesn't work)
+                $(document).on('click', selector, function(e) {
+                    if (preventMultipleTriggers(e)) {
+                        handler(e);
+                    }
+                });
+            } else {
+                // Desktop: use mousedown as primary, click as fallback
+                $(document).on('mousedown', selector, function(e) {
+                    if (preventMultipleTriggers(e)) {
+                        handler(e);
+                    }
+                });
+                
+                // Fallback click for desktop (in case mousedown doesn't work)
+                $(document).on('click', selector, function(e) {
+                    if (preventMultipleTriggers(e)) {
+                        handler(e);
+                    }
+                });
+            }
         },
 
         initModals: function() {

@@ -4,7 +4,7 @@ Tags: blocks, gutenberg, wiki, collaboration, version-control
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,16 @@ The plugin includes an uninstall option that can completely remove all wiki data
 
 == Changelog ==
 
+= 1.1.1 =
+* Improved frontend JavaScript event handling for better plugin compatibility
+* Changed edit and history buttons to use mousedown/touchstart events with click fallback
+* Enhanced cross-device compatibility and future-proofing against plugin conflicts
+
+= 1.1.0 =
+* Added formatting and image handling
+* Added more clean up options
+* Fixed bugs
+
 = 1.0.1 =
 * Readme edits
 
@@ -105,8 +115,11 @@ The plugin includes an uninstall option that can completely remove all wiki data
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-Initial release of Wiki Blocks plugin.
+= 1.1.1 =
+Minor update that improves frontend JavaScript compatibility and cross-device support
+
+= 1.1.0 =
+Major update which fixes bugs and adds formatting
 
 == Translation ==
 
