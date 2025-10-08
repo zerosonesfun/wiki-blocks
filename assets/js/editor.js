@@ -12,7 +12,7 @@
     const { registerBlockType } = wp.blocks;
     const { createElement: el, Fragment } = wp.element;
     const { RichText, InspectorControls, ColorPalette, PanelColorSettings, BlockControls, AlignmentToolbar, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-    const { PanelBody, TextControl, CheckboxControl, SelectControl, Button, Notice, IconButton } = wp.components;
+    const { PanelBody, TextControl, CheckboxControl, SelectControl, Button, Notice, IconButton, ToolbarGroup } = wp.components;
     const { __ } = wp.i18n;
     const { useSelect, useDispatch } = wp.data;
 
@@ -108,10 +108,7 @@
             return div.innerHTML;
         };
         
-        const imageHtml = `<div class="wilcoskywb-wiki-image">
-<img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" />
-${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.caption)}</p>` : ''}
-</div>`;
+        const imageHtml = `<div class="wilcoskywb-wiki-image"><img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" />${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.caption)}</p>` : ''}</div>`;
         setAttributes({ content: content + imageHtml });
     }
 
@@ -228,10 +225,30 @@ ${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.c
             return el(Fragment, {},
                 // Block Controls
                 el(BlockControls, {},
-                    el(AlignmentToolbar, {
-                        value: align,
-                        onChange: (newAlign) => setAttributes({ align: newAlign }),
-                    })
+                    // Alignment controls
+                    el(ToolbarGroup, {},
+                        el(AlignmentToolbar, {
+                            value: align,
+                            onChange: (newAlign) => setAttributes({ align: newAlign }),
+                        })
+                    ),
+                    
+                    // Image controls (separate group)
+                    el(ToolbarGroup, {},
+                        el(MediaUploadCheck, {},
+                            el(MediaUpload, {
+                                onSelect: (media) => addImageToContent(media, setAttributes, content, images || []),
+                                allowedTypes: ['image'],
+                                value: images ? images.map(img => img.id) : [],
+                                render: ({ open }) => el(IconButton, {
+                                    onClick: open,
+                                    icon: 'format-image',
+                                    label: __('Add Image from Media Library', 'wiki-blocks'),
+                                    className: 'components-button components-toolbar__control'
+                                })
+                            })
+                        )
+                    )
                 ),
 
                 // Inspector Controls
@@ -261,22 +278,6 @@ ${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.c
                     })
                 ),
 
-                // Block Controls (Toolbar)
-                el(BlockControls, {},
-                    el(MediaUploadCheck, {},
-                        el(MediaUpload, {
-                            onSelect: (media) => addImageToContent(media, setAttributes, content, images || []),
-                            allowedTypes: ['image'],
-                            value: images ? images.map(img => img.id) : [],
-                            render: ({ open }) => el(IconButton, {
-                                onClick: open,
-                                icon: 'format-image',
-                                label: __('Add Image from Media Library', 'wiki-blocks'),
-                                className: 'components-button components-toolbar__control'
-                            })
-                        })
-                    )
-                ),
 
                 // Block Content
                 el('div', {
@@ -349,6 +350,26 @@ ${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.c
             const { attributes } = props;
             const { content, images, blockId, align, backgroundColor, textColor, fontSize } = attributes;
 
+            // Decode the content for saving to match what WordPress expects
+            let decodedContent = content;
+            
+            // Decode all Unicode escape sequences if present
+            if (content && /u[0-9a-fA-F]{4}/.test(content)) {
+                decodedContent = content.replace(/u([0-9a-fA-F]{4})/g, function(match, hex) {
+                    const charCode = parseInt(hex, 16);
+                    // Handle special characters properly
+                    switch (charCode) {
+                        case 0x000A: return '\n'; // Line feed
+                        case 0x000D: return '\r'; // Carriage return
+                        case 0x0009: return '\t'; // Tab
+                        case 0x0022: return '"';  // Quote
+                        case 0x003C: return '<';  // Less than
+                        case 0x003E: return '>';  // Greater than
+                        default: return String.fromCharCode(charCode);
+                    }
+                });
+            }
+
             // Build CSS classes
             const classes = ['wp-block-wilcoskywb-wiki-block', 'wilcoskywb-wiki-block'];
             if (align) {
@@ -382,7 +403,7 @@ ${media.caption ? `<p class="wilcoskywb-wiki-image-caption">${escapeHtml(media.c
             },
                 el('div', {
                     className: 'wilcoskywb-wiki-content',
-                }, content)
+                }, decodedContent)
             );
         },
     });

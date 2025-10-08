@@ -434,14 +434,38 @@
             // Bind toolbar events
             $toolbar.on('click', '.wilcoskywb-wysiwyg-btn', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
+                // Store current selection before button click
+                var selection = window.getSelection();
+                var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+                
+                // Execute command
                 self.handleToolbarCommand($(this), $contentArea);
+                
+                // Restore focus to content area
+                setTimeout(function() {
+                    $contentArea.focus();
+                }, 10);
             });
             
             // Add keyboard navigation for toolbar buttons
             $toolbar.on('keydown', '.wilcoskywb-wysiwyg-btn', function(e) {
                 if (e.which === 13 || e.which === 32) { // Enter or Space
                     e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Store current selection before button activation
+                    var selection = window.getSelection();
+                    var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+                    
+                    // Execute command
                     self.handleToolbarCommand($(this), $contentArea);
+                    
+                    // Restore focus to content area
+                    setTimeout(function() {
+                        $contentArea.focus();
+                    }, 10);
                 }
             });
             
@@ -466,11 +490,8 @@
 
         // Handle toolbar command execution
         handleToolbarCommand: function($btn, $contentArea) {
-            // Store current selection before any operations
-            var selection = window.getSelection();
-            var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-            
             var command = $btn.data('command');
+            
             if (command === 'createLink') {
                 // Don't change focus, just open modal
                 this.showLinkModal($contentArea);
@@ -478,14 +499,58 @@
                 // Don't change focus, just open modal
                 this.showImageModal($contentArea);
             } else {
-                // For other commands, restore selection first
-                if (range) {
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }
-                document.execCommand(command, false, null);
+                // Ensure content area has focus before executing command
                 $contentArea.focus();
+                
+                // Execute the formatting command
+                var success = document.execCommand(command, false, null);
+                
+                // If execCommand failed, try alternative approach
+                if (!success) {
+                    this.fallbackFormatting(command, $contentArea);
+                }
+                
+                // Update the textarea with the new content
+                $contentArea.trigger('input');
             }
+        },
+
+        // Fallback formatting method for when execCommand fails
+        fallbackFormatting: function(command, $contentArea) {
+            var selection = window.getSelection();
+            var range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+            
+            if (!range || range.collapsed) {
+                return; // No selection to format
+            }
+            
+            var selectedText = range.toString();
+            if (!selectedText) {
+                return; // No text selected
+            }
+            
+            var wrapper;
+            switch (command) {
+                case 'bold':
+                    wrapper = document.createElement('strong');
+                    break;
+                case 'italic':
+                    wrapper = document.createElement('em');
+                    break;
+                case 'underline':
+                    wrapper = document.createElement('u');
+                    break;
+                default:
+                    return;
+            }
+            
+            // Wrap the selected text
+            range.deleteContents();
+            wrapper.textContent = selectedText;
+            range.insertNode(wrapper);
+            
+            // Clear selection
+            selection.removeAllRanges();
         },
 
         // Convert HTML content to editable format

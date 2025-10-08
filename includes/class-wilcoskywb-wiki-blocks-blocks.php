@@ -26,6 +26,13 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 	private static $instance = null;
 
 	/**
+	 * Cache for decoded content during REST API processing
+	 *
+	 * @var array
+	 */
+	private $decoded_content_cache = array();
+
+	/**
 	 * Get instance of this class
 	 *
 	 * @return Wilcoskywb_Wiki_Blocks_Blocks
@@ -56,7 +63,11 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		add_filter( 'the_content', array( $this, 'enhance_wiki_blocks' ) );
 		
 		// Hook into post save to update wiki block database when edited in backend
-		add_action( 'save_post', array( $this, 'handle_post_save' ), 10, 2 );
+		// Use higher priority to ensure we process before other plugins
+		add_action( 'save_post', array( $this, 'handle_post_save' ), 5, 2 );
+		
+		// Hook into REST API to process blocks during save (only for database updates)
+		add_filter( 'rest_pre_insert_post', array( $this, 'process_rest_post_data' ), 10, 2 );
 		
 		// Hook into post deletion to clean up wiki block data
 		add_action( 'before_delete_post', array( $this, 'cleanup_post_wiki_blocks' ) );
@@ -485,6 +496,82 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 	}
 
 	/**
+	 * Process REST API post data to fix encoding issues (for database updates only)
+	 *
+	 * @param WP_Post         $post    The post object.
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_Post Modified post object.
+	 */
+	public function process_rest_post_data( $post, $request ) {
+		// Only process if content is being updated and we're saving a post
+		if ( ! $request->get_param( 'content' ) || ! $post->ID ) {
+			return $post;
+		}
+
+		// Store the decoded content for our database processing
+		// We don't modify the request content to avoid breaking block structure
+		$content = $request->get_param( 'content' );
+		$blocks = parse_blocks( $content );
+		
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] === 'wilcoskywb/wiki-block' ) {
+				$attributes = $block['attrs'] ?? array();
+				$block_content = $attributes['content'] ?? '';
+				
+				if ( ! empty( $block_content ) ) {
+					$decoded_content = $this->decode_block_content( $block_content );
+					
+					if ( $decoded_content !== $block_content ) {
+						// Store the decoded content for later processing with block ID as key
+						$block_id = $attributes['blockId'] ?? '';
+						if ( $block_id ) {
+							$this->decoded_content_cache[ $block_id ] = $decoded_content;
+						}
+					}
+				}
+			}
+		}
+		
+		return $post;
+	}
+
+	/**
+	 * Decode block content using multiple methods
+	 *
+	 * @param string $content Original content.
+	 * @return string Decoded content.
+	 */
+	private function decode_block_content( $content ) {
+		$original_content = $content;
+		
+		// Method 1: Try JSON decode
+		$decoded_content = json_decode( $content, true );
+		if ( json_last_error() === JSON_ERROR_NONE && is_string( $decoded_content ) ) {
+			$content = $decoded_content;
+		}
+		
+		// Method 2: Decode Unicode escape sequences (u003c, u003e, etc.)
+		if ( preg_match( '/\\\\u[0-9a-fA-F]{4}/', $content ) ) {
+			$content = preg_replace_callback( '/\\\\u([0-9a-fA-F]{4})/', function( $matches ) {
+				return mb_convert_encoding( pack( 'H*', $matches[1] ), 'UTF-8', 'UCS-2BE' );
+			}, $content );
+		}
+		
+		// Method 3: Decode without backslashes (u003c instead of \u003c)
+		if ( preg_match( '/u[0-9a-fA-F]{4}/', $content ) ) {
+			$content = preg_replace_callback( '/u([0-9a-fA-F]{4})/', function( $matches ) {
+				return mb_convert_encoding( pack( 'H*', $matches[1] ), 'UTF-8', 'UCS-2BE' );
+			}, $content );
+		}
+		
+		// Method 4: Decode HTML entities if they exist
+		$content = html_entity_decode( $content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		
+		return $content;
+	}
+
+
+	/**
 	 * Update wiki block database when block is saved from backend editor
 	 *
 	 * @param array $block   Block data.
@@ -503,6 +590,23 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		$content = $attributes['content'] ?? '';
 		if ( empty( trim( $content ) ) ) {
 			return; // Skip empty blocks
+		}
+
+		// Check if we have cached decoded content from REST API processing
+		if ( isset( $this->decoded_content_cache[ $block_id ] ) ) {
+			$content = $this->decoded_content_cache[ $block_id ];
+			// Clear the cache after use
+			unset( $this->decoded_content_cache[ $block_id ] );
+		} else {
+			// Fallback: decode the content using our method
+			$original_content = $content;
+			$content = $this->decode_block_content( $content );
+			
+			// Debug logging (remove in production)
+			if ( $original_content !== $content ) {
+				error_log( 'Wiki Blocks: Content decoded from: ' . substr( $original_content, 0, 100 ) . '...' );
+				error_log( 'Wiki Blocks: Content decoded to: ' . substr( $content, 0, 100 ) . '...' );
+			}
 		}
 
 		// Get current user ID
@@ -586,4 +690,4 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			array( '%d' )
 		);
 	}
-} 
+}

@@ -32,6 +32,21 @@
     margin-bottom: 0;
 }
 
+/* Text formatting for main wiki content */
+.wilcoskywb-wiki-content strong,
+.wilcoskywb-wiki-content b {
+    font-weight: bold;
+}
+
+.wilcoskywb-wiki-content em,
+.wilcoskywb-wiki-content i {
+    font-style: italic;
+}
+
+.wilcoskywb-wiki-content u {
+    text-decoration: underline;
+}
+
 /* Wiki Controls */
 .wilcoskywb-wiki-controls {
     position: absolute;
@@ -285,6 +300,21 @@
     margin-bottom: 0.75em;
 }
 
+/* Text formatting for version content inner (full history view) */
+.wilcoskywb-wiki-version-content-inner strong,
+.wilcoskywb-wiki-version-content-inner b {
+    font-weight: bold;
+}
+
+.wilcoskywb-wiki-version-content-inner em,
+.wilcoskywb-wiki-version-content-inner i {
+    font-style: italic;
+}
+
+.wilcoskywb-wiki-version-content-inner u {
+    text-decoration: underline;
+}
+
 .wilcoskywb-wiki-expand-btn,
 .wilcoskywb-wiki-collapse-btn {
     padding: 0.25em 0.5em;
@@ -306,6 +336,21 @@
 .wilcoskywb-wiki-version-content {
     margin-bottom: 1em;
     line-height: 1.6;
+}
+
+/* Text formatting for version content (full history view) */
+.wilcoskywb-wiki-version-content strong,
+.wilcoskywb-wiki-version-content b {
+    font-weight: bold;
+}
+
+.wilcoskywb-wiki-version-content em,
+.wilcoskywb-wiki-version-content i {
+    font-style: italic;
+}
+
+.wilcoskywb-wiki-version-content u {
+    text-decoration: underline;
 }
 
 .wilcoskywb-wiki-version-actions {
@@ -841,6 +886,12 @@
     border-color: #0073aa;
 }
 
+/* Ensure italic button has proper styling */
+.wilcoskywb-wysiwyg-btn[data-command="italic"] {
+    font-style: italic;
+    font-weight: bold;
+}
+
 .wilcoskywb-wysiwyg-btn svg {
     width: 16px;
     height: 16px;
@@ -939,7 +990,8 @@
     font-weight: bold;
 }
 
-.wilcoskywb-wysiwyg-content em {
+.wilcoskywb-wysiwyg-content em,
+.wilcoskywb-wysiwyg-content i {
     font-style: italic;
 }
 

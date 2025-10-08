@@ -47,22 +47,7 @@
     margin: 0;
 }
 
-/* Block Toolbar */
-.components-toolbar__control.components-button[aria-label="Add Image from Media Library"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.components-toolbar__control.components-button[aria-label="Add Image from Media Library"] svg {
-    vertical-align: middle !important;
-}
-
-.dashicon.dashicons.dashicons-format-image {
-    position: relative;
-    top: 5px;
-    padding-left: 10px;
-}
+/* Block Toolbar - Let WordPress handle default styling */
 .wp-block-wilcoskywb-wiki-block .block-editor-block-toolbar {
     position: absolute;
     top: -40px;
@@ -410,4 +395,9 @@
     font-size: 0.9em;
     color: #666;
     font-style: italic;
+}
+
+/* Rich Text Format Boundary Fix */
+.rich-text:focus *[data-rich-text-format-boundary] {
+    background-color: transparent !important; 
 } 
