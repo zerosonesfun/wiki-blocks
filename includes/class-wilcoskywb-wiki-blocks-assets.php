@@ -85,6 +85,7 @@ class Wilcoskywb_Wiki_Blocks_Assets {
 			'wilcoskywbWikiBlocksFrontend',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'postId' => get_the_ID(),
 			'nonces' => array(
 				'getVersions' => wp_create_nonce( 'wilcoskywb_wiki_blocks_get_versions' ),
 				'suggestChange' => wp_create_nonce( 'wilcoskywb_wiki_blocks_suggest_change' ),
@@ -102,6 +103,7 @@ class Wilcoskywb_Wiki_Blocks_Assets {
 					'merge' => __( 'Merge', 'wiki-blocks' ),
 					'submit' => __( 'Submit', 'wiki-blocks' ),
 					'cancel' => __( 'Cancel', 'wiki-blocks' ),
+					'confirm' => __( 'OK', 'wiki-blocks' ),
 					'current' => __( 'Current', 'wiki-blocks' ),
 					'on' => __( 'on', 'wiki-blocks' ),
 					'by' => __( 'by', 'wiki-blocks' ),

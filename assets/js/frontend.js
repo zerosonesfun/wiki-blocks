@@ -18,80 +18,80 @@
         },
 
         bindEvents: function() {
-            // Bind events to wiki block buttons with future-proof event handling
-            this.bindButtonEvents('.wilcoskywb-wiki-suggest-btn', this.handleSuggestClick.bind(this));
-            this.bindButtonEvents('.wilcoskywb-wiki-browse-btn', this.handleBrowseClick.bind(this));
+            var self = this;
+            var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
             
-            // Bind modal events
-            $(document).on('click', '.wilcoskywb-wiki-modal-close, .wilcoskywb-wiki-modal-overlay', this.closeModal.bind(this));
-            $(document).on('click', '.wilcoskywb-wiki-cancel-btn', this.closeModal.bind(this));
+            // Bind suggest button (mousedown on desktop, touchstart on touch, click fallback)
+            if (isTouchDevice) {
+                $(document).on('touchstart', '.wilcoskywb-wiki-suggest-btn', function(e) {
+                    e.preventDefault();
+                    self.handleSuggestClick(e);
+                });
+            } else {
+                $(document).on('mousedown', '.wilcoskywb-wiki-suggest-btn', function(e) {
+                    e.preventDefault();
+                    self.handleSuggestClick(e);
+                });
+            }
+            // Click fallback for both
+            $(document).on('click', '.wilcoskywb-wiki-suggest-btn', function(e) {
+                e.preventDefault();
+            });
+            
+            // Bind browse button (mousedown on desktop, touchstart on touch, click fallback)
+            if (isTouchDevice) {
+                $(document).on('touchstart', '.wilcoskywb-wiki-browse-btn', function(e) {
+                    e.preventDefault();
+                    self.handleBrowseClick(e);
+                });
+            } else {
+                $(document).on('mousedown', '.wilcoskywb-wiki-browse-btn', function(e) {
+                    e.preventDefault();
+                    self.handleBrowseClick(e);
+                });
+            }
+            // Click fallback for both
+            $(document).on('click', '.wilcoskywb-wiki-browse-btn', function(e) {
+                e.preventDefault();
+            });
+            
+            // Bind merge button (mousedown on desktop, touchstart on touch, click fallback)
+            if (isTouchDevice) {
+                $(document).on('touchstart', '.wilcoskywb-wiki-merge-btn', function(e) {
+                    e.preventDefault();
+                    self.handleMergeClick(e);
+                });
+            } else {
+                $(document).on('mousedown', '.wilcoskywb-wiki-merge-btn', function(e) {
+                    e.preventDefault();
+                    self.handleMergeClick(e);
+                });
+            }
+            // Click fallback for both
+            $(document).on('click', '.wilcoskywb-wiki-merge-btn', function(e) {
+                e.preventDefault();
+            });
+            
+            // Bind modal events (standard click is fine for these)
+            $(document).on('click', '.wilcoskywb-wiki-modal-close, .wilcoskywb-wiki-modal-overlay', function(e) {
+                e.preventDefault();
+                self.closeModal();
+            });
+            
+            $(document).on('click', '.wilcoskywb-wiki-cancel-btn', function(e) {
+                e.preventDefault();
+                self.closeModal();
+            });
             
             // Bind form submission
             $(document).on('submit', '.wilcoskywb-wiki-suggest-form', this.handleSuggestSubmit.bind(this));
             
-            // Bind merge button clicks
-            $(document).on('click', '.wilcoskywb-wiki-merge-btn', this.handleMergeClick.bind(this));
-            
             // Close modal on escape key
             $(document).on('keydown', function(e) {
                 if (e.keyCode === 27) { // ESC key
-                    WikiBlocksFrontend.closeModal();
+                    self.closeModal();
                 }
             });
-        },
-
-        // Future-proof button event binding
-        bindButtonEvents: function(selector, handler) {
-            var self = this;
-            var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            var hasTriggered = false;
-            
-            // Prevent multiple triggers for the same interaction
-            var preventMultipleTriggers = function(e) {
-                if (hasTriggered) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-                hasTriggered = true;
-                
-                // Reset flag after a short delay
-                setTimeout(function() {
-                    hasTriggered = false;
-                }, 100);
-                
-                return true;
-            };
-            
-            if (isTouchDevice) {
-                // Touch devices: use touchstart as primary, click as fallback
-                $(document).on('touchstart', selector, function(e) {
-                    if (preventMultipleTriggers(e)) {
-                        handler(e);
-                    }
-                });
-                
-                // Fallback click for touch devices (in case touchstart doesn't work)
-                $(document).on('click', selector, function(e) {
-                    if (preventMultipleTriggers(e)) {
-                        handler(e);
-                    }
-                });
-            } else {
-                // Desktop: use mousedown as primary, click as fallback
-                $(document).on('mousedown', selector, function(e) {
-                    if (preventMultipleTriggers(e)) {
-                        handler(e);
-                    }
-                });
-                
-                // Fallback click for desktop (in case mousedown doesn't work)
-                $(document).on('click', selector, function(e) {
-                    if (preventMultipleTriggers(e)) {
-                        handler(e);
-                    }
-                });
-            }
         },
 
         initModals: function() {
@@ -236,7 +236,7 @@
         bindVersionEvents: function($container) {
             var self = this;
             
-            // Bind expand/collapse events
+            // Bind expand/collapse events (standard click is fine)
             $container.on('click', '.wilcoskywb-wiki-expand-btn', function(e) {
                 e.preventDefault();
                 var $version = $(this).closest('.wilcoskywb-wiki-version, .wilcoskywb-wiki-version-current');
@@ -251,10 +251,7 @@
                 $version.find('.wilcoskywb-wiki-version-content-excerpt').show();
             });
             
-            // Bind merge events
-            $container.on('click', '.wilcoskywb-wiki-merge-btn', function(e) {
-                self.handleMergeClick(e);
-            });
+            // Note: merge button is already bound at document level with mousedown/touchstart
         },
 
         handleSuggestSubmit: function(e) {
@@ -283,6 +280,9 @@
             $block.addClass('wilcoskywb-wiki-loading');
             $submitBtn.prop('disabled', true).text(wilcoskywbWikiBlocksFrontend.strings.loading);
             
+            // Get post ID from page (WordPress provides this)
+            var postId = wilcoskywbWikiBlocksFrontend.postId || 0;
+            
             $.ajax({
                 url: wilcoskywbWikiBlocksFrontend.ajaxUrl,
                 type: 'POST',
@@ -291,6 +291,7 @@
                     block_id: blockId,
                     content: content,
                     change_summary: summary,
+                    post_id: postId,
                     nonce: wilcoskywbWikiBlocksFrontend.nonces.suggestChange
                 },
                 success: function(response) {
@@ -314,6 +315,7 @@
 
         handleMergeClick: function(e) {
             e.preventDefault();
+            var self = this;
             var $btn = $(e.currentTarget);
             
             // Prevent double-clicks and multiple merge operations
@@ -325,9 +327,18 @@
             var $block = $btn.closest('.wilcoskywb-wiki-block, .wp-block-wilcoskywb-wiki-block');
             var blockId = $block.data('block-id');
             
-            if (!confirm(wilcoskywbWikiBlocksFrontend.strings.mergeConfirm)) {
-                return;
-            }
+            // Use custom confirm modal instead of browser confirm
+            this.showConfirm(
+                wilcoskywbWikiBlocksFrontend.strings.mergeConfirm,
+                function() {
+                    // User confirmed - proceed with merge
+                    self.executeMerge($btn, versionId, blockId);
+                }
+            );
+        },
+
+        executeMerge: function($btn, versionId, blockId) {
+            var self = this;
             
             // Set flag and disable button immediately to prevent double-clicks
             this.mergeInProgress = true;
@@ -347,17 +358,75 @@
                         // Reload the page to show updated content
                         location.reload();
                     } else {
-                        this.showMessage(response.data.message, 'error');
-                        this.mergeInProgress = false;
+                        self.showMessage(response.data.message, 'error');
+                        self.mergeInProgress = false;
                         $btn.prop('disabled', false).text(wilcoskywbWikiBlocksFrontend.strings.merge);
                     }
-                }.bind(this),
+                },
                 error: function() {
-                    this.showMessage(wilcoskywbWikiBlocksFrontend.strings.error, 'error');
-                    this.mergeInProgress = false;
+                    self.showMessage(wilcoskywbWikiBlocksFrontend.strings.error, 'error');
+                    self.mergeInProgress = false;
                     $btn.prop('disabled', false).text(wilcoskywbWikiBlocksFrontend.strings.merge);
-                }.bind(this)
+                }
             });
+        },
+
+        showConfirm: function(message, onConfirm, onCancel) {
+            var self = this;
+            
+            // Create confirm modal HTML with ARIA attributes for accessibility
+            var confirmHtml = '<div class="wilcoskywb-confirm-modal" style="display: flex;" role="dialog" aria-modal="true" aria-labelledby="wilcoskywb-confirm-title">' +
+                '<div class="wilcoskywb-confirm-overlay" aria-hidden="true"></div>' +
+                '<div class="wilcoskywb-confirm-content">' +
+                '<p id="wilcoskywb-confirm-title" class="wilcoskywb-confirm-message">' + message + '</p>' +
+                '<div class="wilcoskywb-confirm-actions">' +
+                '<button type="button" class="wilcoskywb-confirm-cancel" aria-label="' + (wilcoskywbWikiBlocksFrontend.strings.cancel || 'Cancel') + '">' + (wilcoskywbWikiBlocksFrontend.strings.cancel || 'Cancel') + '</button>' +
+                '<button type="button" class="wilcoskywb-confirm-ok" aria-label="' + (wilcoskywbWikiBlocksFrontend.strings.confirm || 'OK') + '">' + (wilcoskywbWikiBlocksFrontend.strings.confirm || 'OK') + '</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            
+            // Add to body
+            var $confirmModal = $(confirmHtml);
+            $('body').append($confirmModal);
+            
+            // Bind confirm button
+            $confirmModal.find('.wilcoskywb-confirm-ok').on('click', function() {
+                $confirmModal.remove();
+                $('body').css('overflow', ''); // Restore scrolling
+                if (onConfirm) {
+                    onConfirm();
+                }
+            });
+            
+            // Bind cancel button and overlay
+            $confirmModal.find('.wilcoskywb-confirm-cancel, .wilcoskywb-confirm-overlay').on('click', function() {
+                $confirmModal.remove();
+                $('body').css('overflow', ''); // Restore scrolling
+                if (onCancel) {
+                    onCancel();
+                }
+            });
+            
+            // Handle Escape key to close
+            $(document).on('keydown.wilcoskywb-confirm', function(e) {
+                if (e.keyCode === 27) { // ESC key
+                    $confirmModal.remove();
+                    $('body').css('overflow', ''); // Restore scrolling
+                    $(document).off('keydown.wilcoskywb-confirm');
+                    if (onCancel) {
+                        onCancel();
+                    }
+                }
+            });
+            
+            // Prevent body scrolling when modal is open
+            $('body').css('overflow', 'hidden');
+            
+            // Focus OK button for keyboard accessibility
+            setTimeout(function() {
+                $confirmModal.find('.wilcoskywb-confirm-ok').focus();
+            }, 100);
         },
 
         showModal: function($modal) {

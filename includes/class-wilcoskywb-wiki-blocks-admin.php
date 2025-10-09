@@ -497,6 +497,9 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 
 		// Clear all wiki blocks cache since cleanup affects multiple blocks
 		wp_cache_delete( 'wilcoskywb_admin_stats', 'wiki-blocks' );
+		
+		// Also flush the entire wiki-blocks cache group to be safe
+		wp_cache_flush_group( 'wiki-blocks' );
 
 		wp_send_json_success( array(
 			/* translators: %d: number of deleted versions */
@@ -526,20 +529,21 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 		$settings_table = $wpdb->prefix . 'wilcoskywb_wiki_block_settings';
 		$posts_table = $wpdb->posts;
 
-		// Find all block IDs that have post_id references to non-existent posts
-		$orphaned_blocks = $wpdb->get_col(
+		$deleted_versions = 0;
+		$deleted_settings = 0;
+
+		// CASE 1: Find all block IDs that have post_id references to non-existent posts (deleted posts)
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$orphaned_by_deleted_post = $wpdb->get_col(
 			"SELECT DISTINCT v.block_id 
 			FROM $versions_table v
 			LEFT JOIN $posts_table p ON v.post_id = p.ID
 			WHERE v.post_id IS NOT NULL AND p.ID IS NULL"
 		);
 
-		$deleted_versions = 0;
-		$deleted_settings = 0;
-
-		// Clean up orphaned blocks
-		foreach ( $orphaned_blocks as $block_id ) {
-			// Delete all versions for this orphaned block
+		// Clean up blocks from deleted posts
+		foreach ( $orphaned_by_deleted_post as $block_id ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$versions_deleted = $wpdb->delete(
 				$versions_table,
 				array( 'block_id' => $block_id ),
@@ -547,7 +551,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			);
 			$deleted_versions += $versions_deleted;
 
-			// Delete settings for this orphaned block
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$settings_deleted = $wpdb->delete(
 				$settings_table,
 				array( 'block_id' => $block_id ),
@@ -556,24 +560,24 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			$deleted_settings += $settings_deleted;
 		}
 
-		// Also find and delete any versions with NULL post_id that might be orphaned
-		// (This catches blocks that were never properly associated with posts)
-		$null_post_versions = $wpdb->get_results(
+		// CASE 2: Find blocks with NULL post_id that aren't in any post content
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$null_post_blocks = $wpdb->get_results(
 			"SELECT DISTINCT block_id FROM $versions_table WHERE post_id IS NULL"
 		);
 
-		foreach ( $null_post_versions as $version ) {
-			// Check if this block_id appears in any existing post content
+		foreach ( $null_post_blocks as $version ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$exists_in_content = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM $posts_table 
 					WHERE post_content LIKE %s AND post_status IN ('publish', 'draft', 'private', 'pending')",
-					'%' . $version->block_id . '%'
+					'%' . $wpdb->esc_like( $version->block_id ) . '%'
 				)
 			);
 
 			if ( ! $exists_in_content ) {
-				// Block not found in any post content, safe to delete
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$versions_deleted = $wpdb->delete(
 					$versions_table,
 					array( 'block_id' => $version->block_id ),
@@ -581,6 +585,7 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 				);
 				$deleted_versions += $versions_deleted;
 
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$settings_deleted = $wpdb->delete(
 					$settings_table,
 					array( 'block_id' => $version->block_id ),
@@ -590,8 +595,63 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 			}
 		}
 
+		// CASE 3: Find blocks that have a valid post_id BUT the block is no longer in that post's content
+		// This catches blocks that were removed/replaced but the post still exists
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$blocks_with_valid_posts = $wpdb->get_results(
+			"SELECT DISTINCT v.block_id, v.post_id
+			FROM $versions_table v
+			INNER JOIN $posts_table p ON v.post_id = p.ID
+			WHERE v.post_id IS NOT NULL AND p.post_status IN ('publish', 'draft', 'private', 'pending')"
+		);
+
+		foreach ( $blocks_with_valid_posts as $block ) {
+			// Get the post
+			$post = get_post( $block->post_id );
+			
+			if ( ! $post ) {
+				continue;
+			}
+
+			// Parse Gutenberg blocks from the post content
+			$parsed_blocks = parse_blocks( $post->post_content );
+			
+			// Get all active wiki block IDs from this post
+			$active_block_ids = array();
+			foreach ( $parsed_blocks as $parsed_block ) {
+				if ( $parsed_block['blockName'] === 'wilcoskywb/wiki-block' ) {
+					$block_id = $parsed_block['attrs']['blockId'] ?? '';
+					if ( $block_id ) {
+						$active_block_ids[] = $block_id;
+					}
+				}
+			}
+
+			// If this block_id is NOT in the active blocks list, it's orphaned
+			if ( ! in_array( $block->block_id, $active_block_ids, true ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$versions_deleted = $wpdb->delete(
+					$versions_table,
+					array( 'block_id' => $block->block_id ),
+					array( '%s' )
+				);
+				$deleted_versions += $versions_deleted;
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$settings_deleted = $wpdb->delete(
+					$settings_table,
+					array( 'block_id' => $block->block_id ),
+					array( '%s' )
+				);
+				$deleted_settings += $settings_deleted;
+			}
+		}
+
 		// Clear cache
 		wp_cache_delete( 'wilcoskywb_admin_stats', 'wiki-blocks' );
+		
+		// Also flush the entire wiki-blocks cache group to be safe
+		wp_cache_flush_group( 'wiki-blocks' );
 
 		wp_send_json_success( array(
 			'message' => sprintf(
@@ -707,6 +767,9 @@ class Wilcoskywb_Wiki_Blocks_Admin {
 
 		// Clear cache
 		wp_cache_delete( 'wilcoskywb_admin_stats', 'wiki-blocks' );
+		
+		// Also flush the entire wiki-blocks cache group to be safe
+		wp_cache_flush_group( 'wiki-blocks' );
 
 		wp_send_json_success( array(
 			'message' => sprintf(

@@ -194,9 +194,12 @@
                 setAttributes({ blockId: 'wiki-block-' + clientId });
             }
 
-            // Fetch current version content when block loads (only for existing blocks with a persistent blockId)
+            // Fetch current version content when block loads (for existing blocks)
+            // This ensures the editor always shows the latest merged content from database
             React.useEffect(() => {
-                if (blockId && blockId.startsWith('wiki-block-') && !hasFetchedCurrentVersion.current) {
+                if (blockId && !hasFetchedCurrentVersion.current && content) {
+                    // Only fetch for blocks that appear to be already published
+                    // (have content and a generated blockId)
                     hasFetchedCurrentVersion.current = true;
                     fetchCurrentVersionContent(blockId, setAttributes);
                 }

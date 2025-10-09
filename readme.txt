@@ -4,7 +4,7 @@ Tags: blocks, gutenberg, wiki, collaboration, version-control
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,11 @@ The plugin includes an uninstall option that can completely remove all wiki data
 
 == Changelog ==
 
+= 1.1.5 =
+* Fixed iOS Brave browser bugs
+* Added custom confirmation dialog modals
+* Other minor adjustments
+
 = 1.1.4 =
 * Editor and styling updates
 
@@ -117,6 +122,9 @@ The plugin includes an uninstall option that can completely remove all wiki data
 * Comprehensive error handling
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Bug fixes for iOS Brave browser compatibility and improved user experience with custom confirmation dialogs
 
 = 1.1.4 =
 Minor update with editor and styling improvements

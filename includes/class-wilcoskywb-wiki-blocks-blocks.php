@@ -225,20 +225,28 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			// Use content from database
 			$display_content = $current_version->content;
 		} else {
-					// Extract content from saved HTML and save as initial version
-		// The saved HTML structure is: <div class="wilcoskywb-wiki-content">content</div>
-		if ( preg_match( '/<div[^>]*class="[^"]*wilcoskywb-wiki-content[^"]*"[^>]*>(.*?)<\/div>/s', $original_html, $content_matches ) ) {
-			$display_content = $content_matches[1];
-			
-			// Save as initial version only if we have content and a user
-			$user_id = get_current_user_id();
-			if ( $user_id && ! empty( trim( $display_content ) ) ) {
+			// Extract content from saved HTML and save as initial version
+			// The saved HTML structure is: <div class="wilcoskywb-wiki-content">content</div>
+			if ( preg_match( '/<div[^>]*class="[^"]*wilcoskywb-wiki-content[^"]*"[^>]*>(.*?)<\/div>/s', $original_html, $content_matches ) ) {
+				$display_content = $content_matches[1];
+				
+				// Save as initial version only if we have content, a user, and valid post context
+				$user_id = get_current_user_id();
 				$post_id = get_the_ID();
-				Wilcoskywb_Wiki_Blocks_Database::insert_version( $block_id, $display_content, $user_id, __( 'Initial version', 'wiki-blocks' ), $post_id );
+				
+				// Only save if we have all required data and content is meaningful
+				if ( $user_id && $post_id && ! empty( trim( wp_strip_all_tags( $display_content ) ) ) ) {
+					// Wrap in try-catch to prevent 500 errors if database insert fails
+					try {
+						Wilcoskywb_Wiki_Blocks_Database::insert_version( $block_id, $display_content, $user_id, __( 'Initial version', 'wiki-blocks' ), $post_id );
+					} catch ( Exception $e ) {
+						// Log error but don't break page rendering
+						error_log( 'Wiki Blocks: Failed to create initial version for block ' . $block_id . ': ' . $e->getMessage() );
+					}
+				}
+			} else {
+				$display_content = '';
 			}
-		} else {
-			$display_content = '';
-		}
 		}
 
 
@@ -256,7 +264,9 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 
 		// Wiki content
 		$enhanced_html .= '<div class="wilcoskywb-wiki-content">';
-		$enhanced_html .= wp_kses_post( $display_content );
+		// Decode HTML entities so tags are rendered, then sanitize
+		$decoded_content = html_entity_decode( $display_content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		$enhanced_html .= wp_kses_post( $decoded_content );
 		$enhanced_html .= '</div>';
 
 		// Wiki controls
@@ -309,7 +319,9 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			$enhanced_html .= '</div>';
 			$enhanced_html .= '<div class="wilcoskywb-wiki-form-group">';
 			$enhanced_html .= '<label for="wilcoskywb-wiki-content">' . esc_html__( 'Content', 'wiki-blocks' ) . '</label>';
-			$enhanced_html .= '<textarea id="wilcoskywb-wiki-content" name="content" rows="10" required>' . esc_textarea( $display_content ) . '</textarea>';
+			// Decode HTML entities for editing so user sees actual HTML tags, not entities
+			$decoded_for_edit = html_entity_decode( $display_content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			$enhanced_html .= '<textarea id="wilcoskywb-wiki-content" name="content" rows="10" required>' . esc_textarea( $decoded_for_edit ) . '</textarea>';
 			$enhanced_html .= '</div>';
 			$enhanced_html .= '<div class="wilcoskywb-wiki-form-actions">';
 			$enhanced_html .= '<button type="submit" class="wilcoskywb-wiki-submit-btn">' . esc_html__( 'Submit Suggestion', 'wiki-blocks' ) . '</button>';
@@ -347,10 +359,20 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		// If no current version exists but we have content, save it as the initial version
 		if ( ! $current_version && ! empty( $attributes['content'] ) ) {
 			$user_id = get_current_user_id();
-			if ( $user_id ) {
-				$post_id = get_the_ID();
-				Wilcoskywb_Wiki_Blocks_Database::insert_version( $block_id, $attributes['content'], $user_id, __( 'Initial version', 'wiki-blocks' ), $post_id );
-				$display_content = $attributes['content'];
+			$post_id = get_the_ID();
+			
+			// Only save if we have all required data
+			if ( $user_id && $post_id && ! empty( trim( wp_strip_all_tags( $attributes['content'] ) ) ) ) {
+				// Wrap in try-catch to prevent 500 errors if database insert fails
+				try {
+					Wilcoskywb_Wiki_Blocks_Database::insert_version( $block_id, $attributes['content'], $user_id, __( 'Initial version', 'wiki-blocks' ), $post_id );
+					$display_content = $attributes['content'];
+				} catch ( Exception $e ) {
+					// Log error but don't break page rendering
+					error_log( 'Wiki Blocks: Failed to create initial version for block ' . $block_id . ': ' . $e->getMessage() );
+					// Still use the content even if version creation failed
+					$display_content = $attributes['content'];
+				}
 			}
 		}
 
@@ -397,7 +419,9 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 
 		// Wiki content
 		$html .= '<div class="wilcoskywb-wiki-content">';
-		$html .= wp_kses_post( $display_content );
+		// Decode HTML entities so tags are rendered, then sanitize
+		$decoded_content = html_entity_decode( $display_content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		$html .= wp_kses_post( $decoded_content );
 		$html .= '</div>';
 
 		// Wiki controls
@@ -450,7 +474,9 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			$html .= '</div>';
 			$html .= '<div class="wilcoskywb-wiki-form-group">';
 			$html .= '<label for="wilcoskywb-wiki-content">' . esc_html__( 'Content', 'wiki-blocks' ) . '</label>';
-			$html .= '<textarea id="wilcoskywb-wiki-content" name="content" rows="10" required>' . esc_textarea( $display_content ) . '</textarea>';
+			// Decode HTML entities for editing so user sees actual HTML tags, not entities
+			$decoded_for_edit = html_entity_decode( $display_content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			$html .= '<textarea id="wilcoskywb-wiki-content" name="content" rows="10" required>' . esc_textarea( $decoded_for_edit ) . '</textarea>';
 			$html .= '</div>';
 			$html .= '<div class="wilcoskywb-wiki-form-actions">';
 			$html .= '<button type="submit" class="wilcoskywb-wiki-submit-btn">' . esc_html__( 'Submit Suggestion', 'wiki-blocks' ) . '</button>';
@@ -484,13 +510,41 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			return;
 		}
 
-		// Parse blocks from post content
-		$blocks = parse_blocks( $post->post_content );
+		// Determine if this is a backend edit that should create versions
+		// Check multiple indicators to be more reliable
+		$is_backend_edit = false;
+		
+		// Method 1: Check for the transient we set in REST API hook
+		if ( get_transient( 'wilcoskywb_backend_edit_' . $post_id ) ) {
+			$is_backend_edit = true;
+			delete_transient( 'wilcoskywb_backend_edit_' . $post_id );
+		}
+		
+		// Method 2: Check if we're in a REST request (Gutenberg saves via REST)
+		if ( ! $is_backend_edit && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			// It's a REST request, check if it's not an autosave
+			$is_backend_edit = true;
+		}
+		
+		// Method 3: Check if current user is in admin and making changes
+		if ( ! $is_backend_edit && is_admin() && current_user_can( 'edit_posts' ) ) {
+			// Check if this looks like an intentional edit (not a quick edit or bulk action)
+			// Quick edits and bulk actions typically don't update post_content
+			if ( isset( $_POST['content'] ) || isset( $_POST['post_content'] ) ) {
+				$is_backend_edit = true;
+			}
+		}
+		
+		// Only process if we've determined this is a legitimate backend edit
+		if ( $is_backend_edit ) {
+			// Parse blocks from post content
+			$blocks = parse_blocks( $post->post_content );
 
-		// Process each wiki block
-		foreach ( $blocks as $block ) {
-			if ( $block['blockName'] === 'wilcoskywb/wiki-block' ) {
-				$this->update_wiki_block_from_save( $block, $post_id );
+			// Process each wiki block
+			foreach ( $blocks as $block ) {
+				if ( $block['blockName'] === 'wilcoskywb/wiki-block' ) {
+					$this->update_wiki_block_from_save( $block, $post_id );
+				}
 			}
 		}
 	}
@@ -503,9 +557,24 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 	 * @return WP_Post Modified post object.
 	 */
 	public function process_rest_post_data( $post, $request ) {
-		// Only process if content is being updated and we're saving a post
-		if ( ! $request->get_param( 'content' ) || ! $post->ID ) {
+		// Only process if content is being updated
+		if ( ! $request->get_param( 'content' ) ) {
 			return $post;
+		}
+
+		// Check if this is an autosave by looking at the request route
+		// Autosaves use /wp/v2/posts/{id}/autosaves endpoint
+		$route = $request->get_route();
+		$is_autosave = strpos( $route, '/autosaves' ) !== false;
+		
+		// Set a flag to indicate this is a backend edit (not frontend AJAX)
+		// We use a transient that expires quickly to handle the save_post hook
+		if ( ! $is_autosave ) {
+			// Use post ID from request since $post->ID might not be set yet
+			$post_id = $request->get_param( 'id' ) ?: ( isset( $post->ID ) ? $post->ID : 0 );
+			if ( $post_id ) {
+				set_transient( 'wilcoskywb_backend_edit_' . $post_id, true, 30 );
+			}
 		}
 
 		// Store the decoded content for our database processing
@@ -599,14 +668,7 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 			unset( $this->decoded_content_cache[ $block_id ] );
 		} else {
 			// Fallback: decode the content using our method
-			$original_content = $content;
 			$content = $this->decode_block_content( $content );
-			
-			// Debug logging (remove in production)
-			if ( $original_content !== $content ) {
-				error_log( 'Wiki Blocks: Content decoded from: ' . substr( $original_content, 0, 100 ) . '...' );
-				error_log( 'Wiki Blocks: Content decoded to: ' . substr( $content, 0, 100 ) . '...' );
-			}
 		}
 
 		// Get current user ID
@@ -618,9 +680,37 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		// Get current version from database
 		$current_version = Wilcoskywb_Wiki_Blocks_Database::get_current_version( $block_id );
 
-		// Only update if content has actually changed
-		if ( $current_version && $current_version->content === $content ) {
-			return; // No change, skip update
+		// Normalize content for comparison (strip extra whitespace, normalize line endings)
+		$normalized_new_content = $this->normalize_content_for_comparison( $content );
+		$normalized_current_content = $current_version ? $this->normalize_content_for_comparison( $current_version->content ) : '';
+
+		// Only update if content has actually changed (after normalization)
+		if ( $current_version && $normalized_current_content === $normalized_new_content ) {
+			return; // No meaningful change, skip update
+		}
+
+		// IMPORTANT: Check if this is truly an admin edit or if we're about to overwrite
+		// a recently merged suggestion. If the current version was created/updated within
+		// the last 5 minutes and by a different user, we should be cautious
+		if ( $current_version ) {
+			$version_time = strtotime( $current_version->created_at );
+			$time_diff = time() - $version_time;
+			
+			// If current version is less than 5 minutes old and created by a different user,
+			// this might be a merged suggestion that we shouldn't overwrite
+			if ( $time_diff < 300 && $current_version->user_id != $user_id ) {
+				// Check if the admin actually made changes to the content
+				// If the block attribute content matches an older version, this might be stale data
+				$all_versions = Wilcoskywb_Wiki_Blocks_Database::get_block_versions( $block_id );
+				foreach ( $all_versions as $version ) {
+					$normalized_version_content = $this->normalize_content_for_comparison( $version->content );
+					if ( $normalized_version_content === $normalized_new_content && $version->id != $current_version->id ) {
+						// The "new" content matches an older version, so this is likely stale data
+						// Don't create a new version
+						return;
+					}
+				}
+			}
 		}
 
 		// Create a new version with the updated content
@@ -637,6 +727,37 @@ class Wilcoskywb_Wiki_Blocks_Blocks {
 		if ( $version_id && $current_version ) {
 			Wilcoskywb_Wiki_Blocks_Database::merge_version( $version_id );
 		}
+	}
+
+	/**
+	 * Normalize content for comparison to avoid false positives
+	 *
+	 * @param string $content Content to normalize.
+	 * @return string Normalized content.
+	 */
+	private function normalize_content_for_comparison( $content ) {
+		// First decode HTML entities - this handles &lt;br&gt; becoming <br>
+		$content = html_entity_decode( $content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		
+		// Normalize line endings
+		$content = str_replace( array( "\r\n", "\r" ), "\n", $content );
+		
+		// Trim whitespace from beginning and end
+		$content = trim( $content );
+		
+		// Normalize whitespace around HTML tags for consistent comparison
+		$content = preg_replace( '/\s*(<[^>]+>)\s*/', '$1', $content );
+		
+		// Normalize multiple spaces to single space (but preserve intentional formatting)
+		$content = preg_replace( '/[ \t]+/', ' ', $content );
+		
+		// Remove zero-width spaces and other invisible characters
+		$content = preg_replace( '/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $content );
+		
+		// Normalize self-closing tags (e.g., <br> vs <br />)
+		$content = preg_replace( '/<br\s*\/?>/', '<br>', $content );
+		
+		return $content;
 	}
 
 	/**

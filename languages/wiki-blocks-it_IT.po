@@ -126,6 +126,9 @@ msgstr "Invia Suggerimento"
 msgid "Cancel"
 msgstr "Annulla"
 
+msgid "OK"
+msgstr "OK"
+
 msgid "Loading..."
 msgstr "Caricamento..."
 

@@ -65,6 +65,13 @@
     opacity: 1;
 }
 
+/* Always show controls on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .wilcoskywb-wiki-controls {
+        opacity: 1;
+    }
+}
+
 .wilcoskywb-wiki-suggest-btn,
 .wilcoskywb-wiki-browse-btn {
     display: inline-flex;
@@ -81,6 +88,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(0, 115, 170, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-suggest-btn:hover,
@@ -173,6 +185,11 @@
     justify-content: center;
     border-radius: 0;
     transition: color 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(102, 102, 102, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-modal-close:hover {
@@ -326,6 +343,11 @@
     font-size: 0.75em;
     text-decoration: underline;
     transition: background-color 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(0, 115, 170, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-expand-btn:hover,
@@ -379,6 +401,11 @@
     font-size: 1em;
     font-weight: 500;
     transition: background-color 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(40, 167, 69, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-merge-btn:hover {
@@ -444,6 +471,11 @@
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(0, 115, 170, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-submit-btn:hover {
@@ -464,6 +496,11 @@
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(108, 117, 125, 0.3);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .wilcoskywb-wiki-cancel-btn:hover {
@@ -1253,4 +1290,122 @@
 
 .media-frame {
     z-index: 10000001 !important;
+}
+
+/* Custom Confirm Modal */
+.wilcoskywb-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.wilcoskywb-confirm-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.wilcoskywb-confirm-content {
+    position: relative;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    padding: 2em;
+    animation: slideUp 0.2s ease;
+    z-index: 1;
+}
+
+.wilcoskywb-confirm-message {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0 0 1.5em 0;
+    color: #333;
+}
+
+.wilcoskywb-confirm-actions {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+}
+
+.wilcoskywb-confirm-cancel,
+.wilcoskywb-confirm-ok {
+    padding: 0.75em 1.5em;
+    border: none;
+    border-radius: 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.wilcoskywb-confirm-cancel {
+    background-color: #6c757d;
+    color: white;
+}
+
+.wilcoskywb-confirm-cancel:hover {
+    background-color: #545b62;
+}
+
+.wilcoskywb-confirm-ok {
+    background-color: #28a745;
+    color: white;
+}
+
+.wilcoskywb-confirm-ok:hover {
+    background-color: #218838;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Confirm Modal */
+@media (max-width: 768px) {
+    .wilcoskywb-confirm-content {
+        padding: 1.5em;
+    }
+    
+    .wilcoskywb-confirm-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .wilcoskywb-confirm-cancel,
+    .wilcoskywb-confirm-ok {
+        width: 100%;
+    }
 } 

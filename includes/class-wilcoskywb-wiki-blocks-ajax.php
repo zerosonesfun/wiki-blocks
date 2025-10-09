@@ -97,8 +97,22 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 		// Get current user ID
 		$user_id = get_current_user_id();
 
-		// Get post ID from current context
-		$post_id = get_the_ID();
+		// Get post ID - try from POST data first, then from HTTP referer
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		
+		// If not in POST, try to extract from HTTP referer
+		if ( ! $post_id && isset( $_SERVER['HTTP_REFERER'] ) ) {
+			$referer = esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
+			$post_id = url_to_postid( $referer );
+		}
+		
+		// Last resort: try to find post_id from existing versions of this block
+		if ( ! $post_id ) {
+			$existing_versions = Wilcoskywb_Wiki_Blocks_Database::get_block_versions( $block_id );
+			if ( ! empty( $existing_versions ) && isset( $existing_versions[0]->post_id ) ) {
+				$post_id = $existing_versions[0]->post_id;
+			}
+		}
 
 		// Insert the new version
 		$version_id = Wilcoskywb_Wiki_Blocks_Database::insert_version( $block_id, $content, $user_id, $change_summary, $post_id );
@@ -112,10 +126,13 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 		$new_version = null;
 		foreach ( $versions as $v ) {
 			if ( $v->id == $version_id ) {
+				// Decode HTML entities so content displays properly
+				$decoded_content = html_entity_decode( $v->content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+				
 				$new_version = array(
 					'id' => $v->id,
 					'version_number' => $v->version_number,
-					'content' => $v->content,
+					'content' => $decoded_content,
 					'change_summary' => $v->change_summary,
 					'is_current' => (bool) $v->is_current,
 					'created_at' => $v->created_at,
@@ -167,10 +184,13 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 		// Add user avatars and format data
 		$formatted_versions = array();
 		foreach ( $versions as $version ) {
+			// Decode HTML entities so content displays properly in version history
+			$decoded_content = html_entity_decode( $version->content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			
 			$formatted_versions[] = array(
 				'id' => $version->id,
 				'version_number' => $version->version_number,
-				'content' => $version->content,
+				'content' => $decoded_content,
 				'change_summary' => $version->change_summary,
 				'is_current' => (bool) $version->is_current,
 				'created_at' => $version->created_at,
@@ -265,8 +285,11 @@ class Wilcoskywb_Wiki_Blocks_Ajax {
 			wp_send_json_error( array( 'message' => esc_html__( 'No current version found.', 'wiki-blocks' ) ) );
 		}
 
+		// Decode HTML entities so content is properly formatted in editor
+		$decoded_content = html_entity_decode( $current_version->content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+
 		wp_send_json_success( array(
-			'content' => $current_version->content,
+			'content' => $decoded_content,
 		) );
 	}
 

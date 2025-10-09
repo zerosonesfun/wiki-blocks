@@ -316,4 +316,99 @@
     .wilcoskywb-wiki-blocks-admin-widget .button {
         display: none;
     }
+}
+
+/* Custom Confirm Modal for Admin */
+.wilcoskywb-admin-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.wilcoskywb-admin-confirm-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.wilcoskywb-admin-confirm-content {
+    position: relative;
+    background: white;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    padding: 2em;
+    animation: slideUp 0.2s ease;
+    z-index: 1;
+}
+
+.wilcoskywb-admin-confirm-message {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0 0 1.5em 0;
+    color: #23282d;
+}
+
+.wilcoskywb-admin-confirm-actions {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+}
+
+/* Use WordPress button styles */
+.wilcoskywb-admin-confirm-cancel,
+.wilcoskywb-admin-confirm-ok {
+    /* Touch improvements */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Admin Confirm Modal */
+@media (max-width: 768px) {
+    .wilcoskywb-admin-confirm-content {
+        padding: 1.5em;
+    }
+    
+    .wilcoskywb-admin-confirm-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .wilcoskywb-admin-confirm-cancel,
+    .wilcoskywb-admin-confirm-ok {
+        width: 100%;
+    }
 } 
